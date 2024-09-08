@@ -11,6 +11,8 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@floating-ui/vue": "^1.1.4",
+    "@twa-dev/types": "^7.10.0",
     "vue": "^3.4.37"
   },
   "devDependencies": {
