@@ -1,6 +1,10 @@
 <template>
-    <Text v-if="size === 'l'" weight="2" v-bind="$attrs" />
-    <Subheadline v-else level="2" weight="2" v-bind="$attrs" />
+    <Text v-if="size === 'l'" weight="2" v-bind="$attrs" >
+      <slot></slot>
+    </Text>
+    <Subheadline v-else level="2" weight="2" v-bind="$attrs" >
+      <slot></slot>
+    </Subheadline>
 </template>
   
 <script lang="ts" setup>

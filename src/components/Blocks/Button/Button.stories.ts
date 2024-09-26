@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import Button from './Button.vue';
+import Icon20Copy from '../../../icons/20/copy.vue';
+import Icon24PersonRemove from '../../../icons/24/person_remove.vue';
+import { h } from 'vue';
 
 const meta = {
   title: 'Blocks/Button',
@@ -13,14 +16,11 @@ const meta = {
       control: 'select',
       options: ['filled', 'bezeled', 'plain', 'gray', 'outline', 'white'],
     },
-    type: {
-      control: 'text',
-    },
     before: {
-      control: 'text',
+      control: false,
     },
     after: {
-      control: 'text',
+      control: false,
     },
     stretched: {
       control: 'boolean',
@@ -35,9 +35,9 @@ const meta = {
   args: {
     size: 'm',
     mode: 'filled',
-    type: 'button',
     stretched: false,
     loading: false,
+    disabled: false
   },
 } satisfies Meta<typeof Button>;
 
@@ -48,15 +48,6 @@ export const Plain: Story = {
   args: {
     size: 's',
     mode: 'filled',
-    children: 'Action',
-  },
-};
-
-export const WithIcon: Story = {
-  args: {
-    size: 's',
-    mode: 'filled',
-    children: 'Create channel',
   },
   render: (args) => ({
     components: { Button },
@@ -64,10 +55,31 @@ export const WithIcon: Story = {
       return { args };
     },
     template: `
+      <Button v-bind="args">
+        Action
+      </Button>
+    `,
+  }),
+};
+
+export const WithIcon: Story = {
+  args: {
+    size: 's',
+    mode: 'filled',
+  },
+  render: (args) => ({
+    components: { Button },
+    setup() {
+      const before = h(args.size === 's' ? Icon20Copy : Icon24PersonRemove);
+      return { args, before };
+    },
+    template: `
       <Button
-        :before="args.size === 's' ? Icon20Copy : Icon24PersonRemove"
+        :before="before"
         v-bind="args"
-      />
+      >
+        Create channel
+      </Button>
     `,
   }),
 };
@@ -76,9 +88,19 @@ export const Link: Story = {
   args: {
     size: 's',
     mode: 'filled',
-    children: 'No hello',
-    // target: '_blank',
-    // href: 'https://nohello.net/en/',
+    target: '_blank',
+    href: 'https://nohello.net/en/',
     Component: 'a',
   },
+  render: (args) => ({
+    components: { Button },
+    setup() {
+      return { args };
+    },
+    template: `
+      <Button v-bind="args">
+        No hello
+      </Button>
+    `,
+  }),
 };

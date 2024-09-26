@@ -1,43 +1,50 @@
 <template>
     <component
       :is="Component"
-      :type="type || 'button'"
+      :type="'button'"
       :class="classes"
       v-bind="$attrs"
-      @click="$emit('click', $event)"
     >
-      <Spinner v-if="loading" class="spinner" size="s" />
-      <div v-if="before" class="before">
-        <slot name="before">{{ before }}</slot>
-      </div>
+      <Spinner v-if="loading" :class="styles.spinner" size="s" />
+      <component :is="before" v-if="before" class="before">
+        <slot name="before"></slot>
+      </component>
       <ButtonTypography :class="styles.conent" :size="size">
-        <slot>{{ children }}</slot>
+        <slot></slot>
       </ButtonTypography>
-      <div v-if="after" class="after">
-        <slot name="after">{{ after }}</slot>
-      </div>
+      <component :is="after" v-if="after" class="after">
+        <slot name="after"></slot>
+      </component>
     </component>
 </template>
   
 <script lang="ts" setup>
-  import { computed } from 'vue';
+  import type { BaseHTMLAttributes, ButtonHTMLAttributes} from 'vue';
+  import { computed, VNode } from 'vue';
   import Spinner from '../../../components/Feedback/Spinner/Spinner.vue';
   import ButtonTypography from './ButtonTypography/ButtonTypography.vue';
   import { usePlatform } from '../../../hooks/usePlatform';
   import { classNames } from '../../../helpers/classNames';
   import styles from './Button.module.css';
-  
-  const props = withDefaults(defineProps<{
-    type?: string;
+
+  export interface ButtonProps extends /* @vue-ignore */ BaseHTMLAttributes,  /* @vue-ignore */ ButtonHTMLAttributes {
+    /** Controls the size of the button, influencing padding and font size. */
     size?: 's' | 'm' | 'l';
-    before?: any;
-    after?: any;
+    /** Inserts a component before the button text, typically an icon. */
+    before?: VNode;
+    /** Inserts a component after the button text, such as a badge or indicator. */
+    after?: VNode;
+    /** If true, stretches the button to fill the width with its container. */
     stretched?: boolean;
-    children?: any;
+    /** Defines the button's visual style, affecting its background and text color. */
     mode?: 'filled' | 'bezeled' | 'plain' | 'gray' | 'outline' | 'white';
+    /** Displays a loading indicator in place of the button content when true. */
     loading?: boolean;
-    Component?: string | object;
-  }>(), {
+    /** Specifies the root element type for the button, allowing for semantic customization or integration with routing libraries. */
+    Component?: string;
+  }
+  
+  const props = withDefaults(defineProps<ButtonProps>(), {
     size: 'm',
     mode: 'filled',
     Component: 'button'
@@ -54,5 +61,4 @@
     props.loading && styles['wrapper--loading']
   ));
   
-  defineEmits(['click']);
 </script>
