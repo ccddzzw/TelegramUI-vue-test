@@ -5,7 +5,6 @@ import { Decorator } from '@storybook/vue3';
 import { AppRoot } from '../../src/index';
 
 export const withAppRoot: Decorator = (Story, context) => {
-  console.log(context.globals);
 
   return {
     components: { Story, AppRootDecorator, AppearanceDecorator, AppRoot },

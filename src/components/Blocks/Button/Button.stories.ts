@@ -37,7 +37,6 @@ const meta = {
     mode: 'filled',
     stretched: false,
     loading: false,
-    disabled: false
   },
 } satisfies Meta<typeof Button>;
 

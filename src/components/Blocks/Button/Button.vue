@@ -1,7 +1,6 @@
 <template>
-    <component
-      :is="Component"
-      :type="'button'"
+    <Tappable
+      :Component="Component"
       :class="classes"
       v-bind="$attrs"
     >
@@ -15,13 +14,14 @@
       <component :is="after" v-if="after" class="after">
         <slot name="after"></slot>
       </component>
-    </component>
+    </Tappable>
 </template>
   
 <script lang="ts" setup>
   import type { BaseHTMLAttributes, ButtonHTMLAttributes} from 'vue';
   import { computed, VNode } from 'vue';
   import Spinner from '../../../components/Feedback/Spinner/Spinner.vue';
+  import Tappable from '../../Service/Tappable/Tappable.vue'
   import ButtonTypography from './ButtonTypography/ButtonTypography.vue';
   import { usePlatform } from '../../../hooks/usePlatform';
   import { classNames } from '../../../helpers/classNames';
