@@ -24,5 +24,5 @@ const props = withDefaults(defineProps<TextProps>(), {
   weight: '1',
 });
 
-const classes = computed(() => classNames(styles.wrapper, props.className));
+const classes = computed(() => classNames(styles.wrapper, props.class));
 </script>

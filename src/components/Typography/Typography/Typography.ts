@@ -1,7 +1,7 @@
-import { Component } from 'vue'
+import { Component, HTMLAttributes } from 'vue'
 
 
-export interface TypographyProps {
+export interface TypographyProps extends /* @vue-ignore */ HTMLAttributes {
   /** Controls the font weight of the text, with options ranging from light to bold. */
   weight?: '1' | '2' | '3'
   /** If true, transforms the text to uppercase for stylistic emphasis. */
@@ -10,5 +10,4 @@ export interface TypographyProps {
   component?: string | Component
   /** When true, removes the default margins around the text, useful for inline styling or custom layouts. */
   plain?: boolean
-  className?: string
 }
