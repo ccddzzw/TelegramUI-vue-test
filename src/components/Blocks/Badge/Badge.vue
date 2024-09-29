@@ -13,25 +13,9 @@
   import { classNames } from '../../../helpers/classNames';
   import Caption from '../../Typography/Caption/Caption.vue';
   import Subheadline from '../../Typography/Subheadline/Subheadline.vue';
+  import { BadgeProps } from './Badge';
 
-  const props = withDefaults(defineProps<{
-    /**
-     * The visual style of the badge: 'number' displays the content, 'dot' shows a simple dot.
-     */
-    type: 'number' | 'dot',
-    /**
-     * The color scheme of the badge, affecting its background and text color.
-     */
-    mode?: 'primary' | 'critical' | 'secondary' | 'gray' | 'white',
-    /**
-     * Increases the size of the badge. Applicable only when `type` is 'number'.
-     */
-    large?: boolean,
-    /**
-     * The content to be displayed in the badge (for 'number' type)
-     */
-    content?: string | number,
-  }>(), {
+  const props = withDefaults(defineProps<BadgeProps>(), {
     mode: 'primary',
     large: false,
   });
