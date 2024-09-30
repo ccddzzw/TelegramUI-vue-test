@@ -1,75 +1,112 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import Image from './Image.vue';
 import { h } from 'vue';
+import Icon12Quote from '../../../icons/20/quote.vue';
+import Icon28Stats from '../../../icons/28/stats.vue';
+import ImageBadge from './components/ImageBadge/ImageBadge.vue';
+
 
 // Define the meta object for the Image component
 const meta: Meta<typeof Image> = {
   title: 'Blocks/Image',
   component: Image,
-  tags: ['autodocs'],
   argTypes: {
     size: {
       control: { type: 'select' },
       options: [20, 24, 28, 40, 48, 96],
     },
     src: { control: 'text' },
-    alt: { control: 'text' },
     fallbackIcon: { control: 'text' },
-  },
+  }
 };
 
 export default meta;
-
-// Define the Story type
 type Story = StoryObj<typeof Image>;
 
-// Default story
-export const Default: Story = {
+export const ValidImage: Story = {
   args: {
-    src: 'https://placekitten.com/200/200',
-    alt: 'A cute kitten',
-    size: 40,
+    size: 96,
+    src: 'https://avatars.githubusercontent.com/u/84640980?v=4',
   },
-};
-
-// Story with different sizes
-export const DifferentSizes: Story = {
   render: (args) => ({
     components: { Image },
     setup() {
       return { args };
     },
     template: `
-      <div>
-        <Image v-bind="args" :size="20" style="margin-right: 10px;" />
-        <Image v-bind="args" :size="24" style="margin-right: 10px;" />
-        <Image v-bind="args" :size="28" style="margin-right: 10px;" />
-        <Image v-bind="args" :size="40" style="margin-right: 10px;" />
-        <Image v-bind="args" :size="48" style="margin-right: 10px;" />
-        <Image v-bind="args" :size="96" />
-      </div>
+      <Image v-bind="args" />
     `,
   }),
-  args: {
-    src: 'https://placekitten.com/200/200',
-    alt: 'A cute kitten',
-  },
 };
 
-// Story with fallback icon
-export const WithFallbackIcon: Story = {
+export const InvalidImage: Story = {
   args: {
-    size: 40,
-    fallbackIcon: h('span', { innerHTML: '🖼️' }),
+    size: 96,
+    src: 'https://avatars.gitontent.com/u/84640980?v=4',
   },
+  render: (args) => ({
+    components: { Image },
+    setup() {
+      return { args };
+    },
+    template: `
+      <Image v-bind="args" />
+    `,
+  }),
 };
 
-// Story with error (to show fallback icon)
-export const WithError: Story = {
+export const WithFallback: Story = {
   args: {
-    src: 'https://invalid-image-url.com/image.jpg',
-    alt: 'Invalid image',
-    size: 40,
-    fallbackIcon: h('span', { innerHTML: '🖼️' }),
+    size: 96,
+    src: 'https://avatars.gitontent.com/u/84640980?v=4',
+    fallbackIcon: h('span', '😕'),
   },
+  render: (args) => ({
+    components: { Image },
+    setup() {
+      return { args };
+    },
+    template: `
+      <Image v-bind="args">
+      </Image>
+    `,
+  }),
+};
+
+export const WithBadge: Story = {
+  args: {
+    size: 48,
+    src: 'https://avatars.githubusercontent.com/u/84640980?v=4',
+    fallbackIcon: h('span', '😕'),
+  },
+  render: (args) => ({
+    components: { Image, ImageBadge },
+    setup() {
+      return { args };
+    },
+    template: `
+      <Image v-bind="args">
+        <template #default>
+          <ImageBadge type="number">42</ImageBadge>
+        </template>
+      </Image>
+    `,
+  }),
+};
+
+export const WithChildren: Story = {
+  args: {
+    size: 48,
+  },
+  render: (args) => ({
+    components: { Image, Icon12Quote, Icon28Stats },
+    setup() {
+      return { args };
+    },
+    template: `
+      <Image v-bind="args">
+        <component :is="args.size <= 28 ? Icon12Quote : Icon28Stats" />
+      </Image>
+    `,
+  }),
 };

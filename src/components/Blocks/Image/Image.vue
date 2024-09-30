@@ -1,10 +1,10 @@
 <template>
     <div
       :style="{
-        width: size,
-        minWidth: size,
-        height: size,
-        borderRadius: getBorderRadius(size),
+        width: size + 'px',
+        minWidth: size + 'px',
+        height: size + 'px',
+        borderRadius: getBorderRadius(size) + 'px',
       }"
       :class="classes"
       v-bind="$attrs"
@@ -12,7 +12,7 @@
       <img
         v-if="hasSrc"
         :alt="alt"
-        class="image"
+        :class="styles.image"
         :crossorigin="crossorigin"
         :decoding="decoding"
         :loading="loading"
@@ -24,7 +24,7 @@
         @load="handleImageLoad"
         @error="handleImageError"
       />
-      <div v-if="needShowFallbackIcon" class="fallback">
+      <div v-if="needShowFallbackIcon" :class="styles.fallback">
         <component :is="fallbackIcon" />
       </div>
       <slot></slot>
@@ -32,18 +32,27 @@
 </template>
   
 <script lang="ts" setup>
-  import { computed, ref, isVNode} from 'vue';
+  import { computed, ref, isVNode } from 'vue';
   import type { ImgHTMLAttributes, VNode } from 'vue';
   import { getBorderRadius } from './helpers/getBorderRadius';
   import styles from './Image.module.css';
   import { classNames } from '../../../helpers/classNames';
-//   import ImageBadge from './components/ImageBadge/ImageBadge.vue';
-  
-  interface ImageProps extends /* @vue-ignore */ ImgHTMLAttributes{
+  // import ImageBadge from './components/ImageBadge/ImageBadge.vue';
+
+  interface ImageProps extends /* @vue-ignore */ ImgHTMLAttributes {
     /** Specifies the size of the image, with a default of 40. Sizes are defined in pixels. */
     size?: 20 | 24 | 28 | 40 | 48 | 96;
     /** An element (often an icon) displayed when the image fails to load or the `src` attribute is not provided. */
     fallbackIcon?: VNode;
+    src?: string;
+    alt?: string;
+    crossorigin?: "anonymous" | "use-credentials" | "";
+    decoding?: "async" | "auto" | "sync";
+    loading?: "eager" | "lazy";
+    referrerpolicy?: "no-referrer" | "no-referrer-when-downgrade" | "origin" | "origin-when-cross-origin" | "same-origin" | "strict-origin" | "strict-origin-when-cross-origin" | "unsafe-url";
+    sizes?: string;
+    srcset?: string;
+    usemap?: string;
   }
   
   const props = withDefaults(defineProps<ImageProps>(), {
@@ -83,9 +92,4 @@
     failed.value = true;
     emit('error', event);
   };
-  
-  // Expose ImageBadge as a subcomponent
-//   const Image = {
-//     Badge: ImageBadge,
-//   };
 </script>

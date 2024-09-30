@@ -13,13 +13,4 @@
         fill="currentColor"
       />
     </svg>
-  </template>
-  
-  <script lang="ts">
-  import { defineComponent } from 'vue'
-  
-  export default defineComponent({
-    name: 'Icon28Stats',
-    inheritAttrs: false
-  })
-  </script>
+</template>

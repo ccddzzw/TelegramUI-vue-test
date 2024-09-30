@@ -3,7 +3,9 @@
     type="number"
     :class="classes"
     v-bind="$attrs"
-  />
+  >
+    <slot></slot>
+  </Badge>
 </template>
 
 <script lang="ts" setup>
