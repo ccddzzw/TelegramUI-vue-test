@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import Image from './Image.vue';
+import Image, { ImageBadge } from './Image.vue';
 import { h } from 'vue';
 import Icon12Quote from '../../../icons/20/quote.vue';
 import Icon28Stats from '../../../icons/28/stats.vue';
-import ImageBadge from './components/ImageBadge/ImageBadge.vue';
 
 
 // Define the meta object for the Image component
@@ -126,9 +125,7 @@ export const WithBadge: Story = {
     },
     template: `
       <Image v-bind="args">
-        <template #default>
-          <ImageBadge type="number">42</ImageBadge>
-        </template>
+        <ImageBadge type="number">42</ImageBadge>
       </Image>
     `,
   }),

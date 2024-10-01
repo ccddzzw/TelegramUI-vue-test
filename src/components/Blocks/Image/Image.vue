@@ -31,13 +31,12 @@
     </div>
 </template>
   
-<script lang="ts" setup>
+<script setup lang="ts">
   import { computed, ref, isVNode } from 'vue';
   import type { ImgHTMLAttributes, VNode } from 'vue';
   import { getBorderRadius } from './helpers/getBorderRadius';
   import styles from './Image.module.css';
   import { classNames } from '../../../helpers/classNames';
-  // import ImageBadge from './components/ImageBadge/ImageBadge.vue';
 
   interface ImageProps extends /* @vue-ignore */ ImgHTMLAttributes {
     /** Specifies the size of the image, with a default of 40. Sizes are defined in pixels. */
@@ -93,4 +92,10 @@
     props.class
   ));
 
+</script>
+
+<script lang="ts">
+import ImageBadge from './components/ImageBadge/ImageBadge.vue';
+
+export { ImageBadge };
 </script>
