@@ -63,10 +63,27 @@
     (e: 'load', event: Event): void;
     (e: 'error', event: Event): void;
   }>();
-  
+
   const loaded = ref(false);
   const failed = ref(false);
+
+  const handleImageLoad = (event: Event) => {
+    if (loaded.value) {
+      return;
+    }
+
+    loaded.value = true;
+    failed.value = false;
+    emit('load', event);
+  };
+
+  const handleImageError = (event: Event) => {
+    loaded.value = false;
+    failed.value = true;
+    emit('error', event);
+  };
   
+ 
   const hasSrc = computed(() => props.src || props.srcset);
   const needShowFallbackIcon = computed(() => (failed.value || !hasSrc.value) && isVNode(props.fallbackIcon));
   
@@ -76,20 +93,4 @@
     props.class
   ));
 
-  
-  const handleImageLoad = (event: Event) => {
-    if (loaded.value) {
-      return;
-    }
-  
-    loaded.value = true;
-    failed.value = false;
-    emit('load', event);
-  };
-  
-  const handleImageError = (event: Event) => {
-    loaded.value = false;
-    failed.value = true;
-    emit('error', event);
-  };
 </script>

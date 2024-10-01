@@ -16,8 +16,48 @@ const meta: Meta<typeof Image> = {
       options: [20, 24, 28, 40, 48, 96],
     },
     src: { control: 'text' },
-    fallbackIcon: { control: 'text' },
-  }
+    fallbackIcon: { control: false },
+    alt: {
+      table: {
+        disable: true,
+      },
+    },
+    crossorigin: {
+      table: {
+        disable: true,
+      },
+    },
+    decoding: {
+      table: {
+        disable: true,
+      },
+    },
+    loading: {
+      table: {
+        disable: true,
+      },
+    },
+    referrerpolicy: {
+      table: {
+        disable: true,
+      },
+    },
+    sizes: {
+      table: {
+        disable: true,
+      },
+    },
+    srcset: {
+      table: {
+        disable: true,
+      },
+    },
+    usemap: {
+      table: {
+        disable: true,
+      },
+    },
+  },
 };
 
 export default meta;
@@ -101,11 +141,14 @@ export const WithChildren: Story = {
   render: (args) => ({
     components: { Image, Icon12Quote, Icon28Stats },
     setup() {
-      return { args };
+      return { 
+        args,
+        getIcon: () => args.size && args.size <= 28 ? h(Icon12Quote) : h(Icon28Stats)
+      };
     },
     template: `
       <Image v-bind="args">
-        <component :is="args.size <= 28 ? Icon12Quote : Icon28Stats" />
+        <component :is="getIcon()" />
       </Image>
     `,
   }),
