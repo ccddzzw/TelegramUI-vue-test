@@ -13,8 +13,4 @@ export interface BadgeProps extends /* @vue-ignore */ AreaHTMLAttributes {
      * Increases the size of the badge. Applicable only when `type` is 'number'.
      */
     large?: boolean;
-    /**
-     * The content to be displayed in the badge (for 'number' type)
-     */
-    content?: string | number;
 }

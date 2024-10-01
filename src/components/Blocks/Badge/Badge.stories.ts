@@ -23,30 +23,29 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Dot: Story = {
+  args: {
+    type: 'dot',
+    mode: 'primary',
+  },
   render: (args) => ({
     components: { Badge },
     setup() {
       return { args };
     },
     template: '<Badge v-bind="args" />',
-  }),
-  args: {
-    type: 'dot',
-    mode: 'primary',
-  },
+  }), 
 };
 
 export const Number: Story = {
+  args: {
+    mode: 'primary',
+    type: 'number',
+  },
   render: (args) => ({
     components: { Badge },
     setup() {
       return { args };
     },
-    template: '<Badge v-bind="args">{{ args.children }}</Badge>',
+    template: '<Badge v-bind="args">50</Badge>',
   }),
-  args: {
-    mode: 'primary',
-    type: 'number',
-    content: 50,
-  },
 };

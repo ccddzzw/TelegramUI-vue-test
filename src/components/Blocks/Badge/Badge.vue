@@ -1,19 +1,21 @@
 <template>
     <span :class="classes">
       <template v-if="hasContent && type === 'number'">
-        <Subheadline v-if="large" Component="span" level="2" weight="2">{{ content }}</Subheadline>
-        <Caption v-else weight="2">{{ content }}</Caption>
+        <Subheadline v-if="large" Component="span" level="2" weight="2"><slot></slot></Subheadline>
+        <Caption v-else weight="2"><slot></slot></Caption>
       </template>
     </span>
 </template>
   
 <script lang="ts" setup>
-  import { computed } from 'vue';
+  import { computed, useSlots } from 'vue';
   import styles from './Badge.module.css';
   import { classNames } from '../../../helpers/classNames';
   import Caption from '../../Typography/Caption/Caption.vue';
   import Subheadline from '../../Typography/Subheadline/Subheadline.vue';
   import { BadgeProps } from './Badge';
+
+  const slots = useSlots();
 
   const props = withDefaults(defineProps<BadgeProps>(), {
     mode: 'primary',
@@ -40,5 +42,5 @@
     props.type === 'number' && props.large && styles['wrapper--large'],
   ));
   
-  const hasContent = computed(() => props.content !== undefined && props.content !== null);
+  const hasContent = computed(() => !!slots.default);
 </script>
