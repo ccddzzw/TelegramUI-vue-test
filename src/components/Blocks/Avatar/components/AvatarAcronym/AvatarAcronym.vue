@@ -12,10 +12,10 @@
   
 <script lang="ts" setup>
   import { computed } from 'vue';
-  import Caption from '../../../../../components/Typography/Caption/Caption.vue';
-  import { Headline } from 'components/Typography/Headline/Headline';
-  import { LargeTitle } from 'components/Typography/LargeTitle/LargeTitle';
-  import { Title } from 'components/Typography/Title/Title';
+  import Caption from '../../../../Typography/Caption/Caption.vue';
+  import Headline from '../../../../Typography/Headline/Headline.vue';
+  import LargeTitle from '../../../../Typography/LargeTitle/LargeTitle.vue';
+  import Title from '../../../../Typography/Title/Title.vue';
   import { TypographyProps } from '../../../../Typography/Typography/Typography';
   import { ImageProps } from '../../../Image/image';
   
