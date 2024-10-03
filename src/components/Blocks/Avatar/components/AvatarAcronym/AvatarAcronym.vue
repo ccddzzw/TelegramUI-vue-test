@@ -16,8 +16,9 @@
   import { Headline } from 'components/Typography/Headline/Headline';
   import { LargeTitle } from 'components/Typography/LargeTitle/LargeTitle';
   import { Title } from 'components/Typography/Title/Title';
-import { TypographyProps } from '../../../../Typography/Typography/Typography';
- 
+  import { TypographyProps } from '../../../../Typography/Typography/Typography';
+  import { ImageProps } from '../../../Image/image';
+  
   export interface AvatarAcronymProps extends TypographyProps {
     size: ImageProps['size'];
   }

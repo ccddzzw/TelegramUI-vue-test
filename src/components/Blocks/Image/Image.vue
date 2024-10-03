@@ -33,26 +33,9 @@
   
 <script setup lang="ts">
   import { computed, ref, isVNode } from 'vue';
-  import type { ImgHTMLAttributes, VNode } from 'vue';
   import { getBorderRadius } from './helpers/getBorderRadius';
   import styles from './Image.module.css';
-  import { classNames } from '../../../helpers/classNames';
-
-  interface ImageProps extends /* @vue-ignore */ ImgHTMLAttributes {
-    /** Specifies the size of the image, with a default of 40. Sizes are defined in pixels. */
-    size?: 20 | 24 | 28 | 40 | 48 | 96;
-    /** An element (often an icon) displayed when the image fails to load or the `src` attribute is not provided. */
-    fallbackIcon?: VNode;
-    src?: string;
-    alt?: string;
-    crossorigin?: "anonymous" | "use-credentials" | "";
-    decoding?: "async" | "auto" | "sync";
-    loading?: "eager" | "lazy";
-    referrerpolicy?: "no-referrer" | "no-referrer-when-downgrade" | "origin" | "origin-when-cross-origin" | "same-origin" | "strict-origin" | "strict-origin-when-cross-origin" | "unsafe-url";
-    sizes?: string;
-    srcset?: string;
-    usemap?: string;
-  }
+  import { classNames } from '../../../helpers/classNames'; 
   
   const props = withDefaults(defineProps<ImageProps>(), {
     size: 40,
@@ -96,6 +79,7 @@
 
 <script lang="ts">
 import ImageBadge from './components/ImageBadge/ImageBadge.vue';
+import { ImageProps } from './image';
 
 export { ImageBadge };
 </script>

@@ -3,7 +3,7 @@
     :weight="weight"
     :caps="caps"
     :plain="plain"
-    :class="[styles.wrapper, titleLevelStyles[level], className]"
+    :class="[styles.wrapper, titleLevelStyles[level], props.class]"
     :component="componentTag"
   >
     <slot></slot>

@@ -11,7 +11,8 @@
 <script lang="ts" setup>
   import { computed } from 'vue';
   import { classNames } from '../../../helpers/classNames'
-  import { Image, type ImageProps } from 'components/Blocks/Image/Image';
+  import Image from '../Image/Image.vue';
+  import { ImageProps } from '../Image/image';
   import AvatarAcronym from './components/AvatarAcronym.vue';
   import AvatarBadge from './components/AvatarBadge.vue';
   import styles from './Avatar.module.css';
