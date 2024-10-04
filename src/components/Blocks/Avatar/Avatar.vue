@@ -4,8 +4,11 @@
       :class="classes"
       :fallbackIcon="fallbackIconComponent"
       :size="size"
+      :src="src"
       v-bind="$attrs"
-    />
+    >
+      <slot></slot>
+    </Image>
 </template>
   
 <script lang="ts" setup>
@@ -30,19 +33,12 @@
     props.class
   ));
   
-  const fallbackIconComponent = computed(() => {
-    if (props.acronym) {
-      // return () => h(AvatarAcronym, { size: props.size }, () => props.acronym);
-      return () => `
-        <AvatarAcronym size={props.size}>
-          {props.acronym}
-        </AvatarAcronym>
-      `;
-    }
-    return props.fallbackIcon;
-  });
+  const fallbackIconComponent = computed(() => 
+    props.acronym
+      ? h(AvatarAcronym, { size: props.size as number }, () => props.acronym)
+      : props.fallbackIcon
+  );
   
-  // Expose AvatarBadge as a subcomponent
   defineExpose({
     Badge: AvatarBadge
   });
