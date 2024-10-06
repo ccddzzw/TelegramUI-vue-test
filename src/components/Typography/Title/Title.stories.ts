@@ -38,13 +38,13 @@ export const Title1: Story = {
     },
     template: `
       <div>
-        <Title :weight="3" v-bind="args">
+        <Title weight="3" v-bind="args">
           Title 1 · Regular
         </Title>
-        <Title :weight="2" v-bind="args">
+        <Title weight="2" v-bind="args">
           Title 1 · Semibold
         </Title>
-        <Title :weight="1" v-bind="args">
+        <Title weight="1" v-bind="args">
           Title 1 · Bold
         </Title>
       </div>
@@ -64,13 +64,13 @@ export const Title2: Story = {
     },
     template: `
       <div>
-        <Title :weight="3" v-bind="args">
+        <Title weight="3" v-bind="args">
           Title 2 · Regular
         </Title>
-        <Title :weight="2" v-bind="args">
+        <Title weight="2" v-bind="args">
           Title 2 · Semibold
         </Title>
-        <Title :weight="1" v-bind="args">
+        <Title weight="1" v-bind="args">
           Title 2 · Bold
         </Title>
       </div>
@@ -91,13 +91,13 @@ export const Title3: Story = {
     },
     template: `
       <div>
-        <Title :weight="3" v-bind="args">
+        <Title weight="3" v-bind="args">
           Title 3 · Regular
         </Title>
-        <Title :weight="2" v-bind="args">
+        <Title weight="2" v-bind="args">
           Title 3 · Semibold
         </Title>
-        <Title :weight="1" v-bind="args">
+        <Title weight="1" v-bind="args">
           Title 3 · Bold
         </Title>
       </div>
