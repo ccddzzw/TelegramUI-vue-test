@@ -19,16 +19,18 @@ const meta = {
   },
   args: {
     plain: true,
-    level: '3',
-    caps: false,
-    weight: '1',
+    level: '1',
   },
 } satisfies Meta<typeof Title>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {
+export const Title1: Story = {
+  args: {
+    level: '1',
+    plain: false,
+  },
   render: (args) => ({
     components: { Title },
     setup() {
@@ -36,11 +38,68 @@ export const Playground: Story = {
     },
     template: `
       <div>
-        <Title level="1" v-bind="args">Title · Level 1</Title>
-        <br><br>
-        <Title level="2" v-bind="args">Title · Level 2</Title>
-        <br><br>
-        <Title level="3" v-bind="args">Title · Level 3</Title>
+        <Title :weight="3" v-bind="args">
+          Title 1 · Regular
+        </Title>
+        <Title :weight="2" v-bind="args">
+          Title 1 · Semibold
+        </Title>
+        <Title :weight="1" v-bind="args">
+          Title 1 · Bold
+        </Title>
+      </div>
+    `,
+  }),
+};
+
+export const Title2: Story = {
+  args: {
+    level: '2',
+    plain: false,
+  },
+  render: (args) => ({
+    components: { Title },
+    setup() {
+      return { args };
+    },
+    template: `
+      <div>
+        <Title :weight="3" v-bind="args">
+          Title 2 · Regular
+        </Title>
+        <Title :weight="2" v-bind="args">
+          Title 2 · Semibold
+        </Title>
+        <Title :weight="1" v-bind="args">
+          Title 2 · Bold
+        </Title>
+      </div>
+    `,
+  }),
+};
+
+
+export const Title3: Story = {
+  args: {
+    level: '3',
+    plain: false,
+  },
+  render: (args) => ({
+    components: { Title },
+    setup() {
+      return { args };
+    },
+    template: `
+      <div>
+        <Title :weight="3" v-bind="args">
+          Title 3 · Regular
+        </Title>
+        <Title :weight="2" v-bind="args">
+          Title 3 · Semibold
+        </Title>
+        <Title :weight="1" v-bind="args">
+          Title 3 · Bold
+        </Title>
       </div>
     `,
   }),

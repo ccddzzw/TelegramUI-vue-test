@@ -16,7 +16,6 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
 import styles from './Typography.module.css';
 import { TypographyProps } from './Typography';
 
@@ -26,9 +25,9 @@ withDefaults(defineProps<TypographyProps>(), {
   caps: false,
 });
 
-const stylesWeight = computed(() => ({
+const stylesWeight = {
   '1': styles['wrapper--weight-1'],
   '2': styles['wrapper--weight-2'],
   '3': styles['wrapper--weight-3'],
-}));
+};
 </script>
