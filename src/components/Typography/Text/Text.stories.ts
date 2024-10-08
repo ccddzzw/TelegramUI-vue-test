@@ -18,9 +18,6 @@ const meta = {
       control: false,
     },
   },
-  args: {
-    weight: '1',
-  },
 } satisfies Meta<typeof Text>;
 
 export default meta;
