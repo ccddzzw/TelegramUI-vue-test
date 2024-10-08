@@ -20,16 +20,16 @@ const meta = {
       control: false
     }
   },
-  args: {
-    level: '1',
-    plain: true,
-  },
 } satisfies Meta<typeof Subheadline>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {
+export const Subheadline1: Story = {
+  args: {
+    level: '1',
+    plain: false,
+  },
   render: (args) => ({
     components: { Subheadline },
     setup() {
@@ -37,11 +37,41 @@ export const Playground: Story = {
     },
     template: `
       <div>
-        <Subheadline weight="3" v-bind="args">Subheadline 1 · Regular</Subheadline>
-        <br><br>
-        <Subheadline weight="2" v-bind="args">Subheadline 1 · Semibold</Subheadline>
-        <br><br>
-        <Subheadline weight="1" v-bind="args">Subheadline 1 · Bold</Subheadline>
+        <Subheadline weight="3" v-bind="args">
+          Subheadline 1 · Regular
+        </Subheadline>
+        <Subheadline weight="2" v-bind="args">
+          Subheadline 1 · Semibold
+        </Subheadline>
+        <Subheadline weight="1" v-bind="args">
+          Subheadline 1 · Bold
+        </Subheadline>
+      </div>
+    `,
+  }),
+};
+
+export const Subheadline2: Story = {
+  args: {
+    level: '2',
+    plain: false,
+  },
+  render: (args) => ({
+    components: { Subheadline },
+    setup() {
+      return { args };
+    },
+    template: `
+      <div>
+        <Subheadline weight="3" v-bind="args">
+          Subheadline 2 · Regular
+        </Subheadline>
+        <Subheadline weight="2" v-bind="args">
+          Subheadline 2 · Semibold
+        </Subheadline>
+        <Subheadline weight="1" v-bind="args">
+          Subheadline 2 · Bold
+        </Subheadline>
       </div>
     `,
   }),

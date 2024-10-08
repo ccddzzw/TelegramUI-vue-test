@@ -3,20 +3,22 @@
     :weight="weight"
     :caps="caps"
     :plain="plain"
-    :class="classes" 
     :component="component"
+    :class="[
+      styles.wrapper,
+      subheadlineLevelStyles[level],
+      $attrs.class
+    ]" 
+    v-bind="$attrs"
   >
     <slot></slot>
   </Typography>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
 import Typography from '../Typography/Typography.vue';
 import { TypographyProps } from '../Typography/Typography';
-import { classNames } from '../../../helpers/classNames';
 import styles from './Subheadline.module.css';
-
 
 type SubheadlineLevel = '1' | '2';
 
@@ -25,7 +27,7 @@ interface SubheadlineProps extends TypographyProps {
     level?: SubheadlineLevel,
 }
 
-const props = withDefaults(defineProps<SubheadlineProps>(), {
+withDefaults(defineProps<SubheadlineProps>(), {
     level: '1',
     component: 'h6',
 });
@@ -35,10 +37,4 @@ const subheadlineLevelStyles: Record<SubheadlineLevel, string> = {
     '2': styles['wrapper--2'],
 };
 
-const classes = computed(() => 
-    classNames(
-        styles.wrapper,
-        subheadlineLevelStyles[props.level],
-    )
-);
 </script>
