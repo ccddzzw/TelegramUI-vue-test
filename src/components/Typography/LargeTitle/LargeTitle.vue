@@ -1,24 +1,20 @@
 <template>
     <Typography
-      :class="classes"
+      :class="styles.wrapper"
       v-bind="$props"
     >
       <slot></slot>
     </Typography>
-  </template>
+</template>
   
 <script lang="ts" setup>
-  import { computed } from 'vue';
-  import { classNames } from '../../../helpers/classNames';
   import styles from './LargeTitle.module.css';
-import { TypographyProps } from '../Typography/Typography';
-import Typography from '../Typography/Typography.vue';
+  import { TypographyProps } from '../Typography/Typography';
+  import Typography from '../Typography/Typography.vue';
   
   type LargeTitleProps = TypographyProps;
-  
-  const props = withDefaults(defineProps<LargeTitleProps>(), {
+
+  withDefaults(defineProps<LargeTitleProps>(), {
     component: 'h1',
   });
-  
-  const classes = computed(() => classNames(styles.wrapper, props.class));
 </script> 

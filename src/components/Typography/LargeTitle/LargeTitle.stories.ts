@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import LargeTitle from './LargeTitle.vue';
+import styles from './LargeTitle.stories.module.css';
+
 
 const meta: Meta<typeof LargeTitle> = {
   title: 'Typography/LargeTitle',
@@ -25,11 +27,11 @@ export const Playground: Story = {
   render: (args) => ({
     components: { LargeTitle },
     setup() {
-      return { args };
+      return { args, styles };
     },
     template: `
       <div>
-        <LargeTitle weight="3" v-bind="args">
+        <LargeTitle weight="3" v-bind="args" :class="styles.color">
           Large Title · Regular
         </LargeTitle>
         <LargeTitle weight="2" v-bind="args">
