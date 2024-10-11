@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import Title from './Title.vue';
+import { Title } from './index';
 
 const meta = {
   title: 'Typography/Title',
@@ -23,10 +23,6 @@ const meta = {
     component: {
       control: false
     }
-  },
-  args: {
-    plain: true,
-    level: '1',
   },
 } satisfies Meta<typeof Title>;
 

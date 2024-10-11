@@ -1,13 +1,9 @@
 <template>
   <Typography
-    :weight="weight"
-    :caps="caps"
-    :component="component"
+    v-bind="$props"
     :class="[
       styles.wrapper,
-      $attrs.class
     ]"
-    v-bind="$attrs"
   >
     <slot></slot>
   </Typography>
@@ -15,8 +11,7 @@
 
 <script lang="ts" setup>
 import styles from './Text.module.css';
-import Typography from '../Typography/Typography.vue';
-import { TypographyProps } from '../Typography/Typography';
+import { TypographyProps, Typography } from '../Typography';
 
 type TextProps = Omit<TypographyProps, 'plain'>
 
