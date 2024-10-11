@@ -1,17 +1,13 @@
 <template>
   <Typography
-    :caps="caps"
-    :plain="plain"
-    :weight="weight"
+    v-bind="$props"
     :class="[
       styles.wrapper,
       {
         [titleLevelStyles[level]]: level,
       },
-      $attrs.class
     ]"
     :component="componentTag"
-    v-bind="$attrs"
   >
     <slot></slot>
   </Typography>

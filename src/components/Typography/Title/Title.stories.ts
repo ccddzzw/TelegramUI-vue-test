@@ -4,6 +4,13 @@ import Title from './Title.vue';
 const meta = {
   title: 'Typography/Title',
   component: Title,
+  parameters: {
+    docs: {
+      description: {
+        component: 'Text component is designed for general-purpose text rendering,offering a wide range of typographic options. It extends the Typographycomponent, inheriting its flexibility and styling capabilities.This component is ideal for paragraphs, labels, or any textual content, providingconsistent styling across the application.'
+      }
+    }
+  },
   argTypes: {
     level: {
       control: 'radio',
@@ -11,10 +18,10 @@ const meta = {
     },
     weight: {
       control: 'radio',
-      options: ['1','2','3'],
+      options: ['1', '2', '3'],
     },
-    component:{
-      control: false 
+    component: {
+      control: false
     }
   },
   args: {
