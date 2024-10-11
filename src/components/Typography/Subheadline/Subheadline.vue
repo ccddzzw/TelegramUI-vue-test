@@ -1,24 +1,18 @@
 <template>
   <Typography
-    :weight="weight"
-    :caps="caps"
-    :plain="plain"
-    :component="component"
+    v-bind="$props"
     :class="[
       styles.wrapper,
       subheadlineLevelStyles[level],
-      $attrs.class
     ]" 
-    v-bind="$attrs"
   >
     <slot></slot>
   </Typography>
 </template>
 
 <script lang="ts" setup>
-import Typography from '../Typography/Typography.vue';
-import { TypographyProps } from '../Typography/Typography';
 import styles from './Subheadline.module.css';
+import { TypographyProps, Typography } from '../Typography';
 
 type SubheadlineLevel = '1' | '2';
 
@@ -36,5 +30,4 @@ const subheadlineLevelStyles: Record<SubheadlineLevel, string> = {
     '1': styles['wrapper--1'],
     '2': styles['wrapper--2'],
 };
-
 </script>

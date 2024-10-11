@@ -1,9 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import Subheadline from './Subheadline.vue';
+import { Subheadline } from './index';
 
 const meta = {
   title: 'Typography/Subheadline',
   component: Subheadline,
+  parameters: {
+    docs: {
+      description: {
+        component: 'The Subheadline component is designed to render text that serves as a secondary heading or subheading within content. It leverages the Typography component for consistent text styling, offering additional control over the text\'s size through the `level` prop. By default, it renders as an `<h6>` element but can be customized with the `Component` prop.'
+      }
+    }
+  },
   argTypes: {
     level: {
       control: 'radio',
