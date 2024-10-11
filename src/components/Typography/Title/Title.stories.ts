@@ -7,7 +7,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: 'Text component is designed for general-purpose text rendering,offering a wide range of typographic options. It extends the Typographycomponent, inheriting its flexibility and styling capabilities.This component is ideal for paragraphs, labels, or any textual content, providingconsistent styling across the application.'
+        component: 'The Title component is designed to render text as a page or section heading, providing clear hierarchy and structure within content. It supports three levels of emphasis, allowing for flexibility in design while maintaining semantic integrity. By default, it uses `h3` for its semantic HTML element but can be customized via the `level` prop or explicitly with the `Component` prop.'
       }
     }
   },

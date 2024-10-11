@@ -16,8 +16,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import styles from './Title.module.css';
-import Typography from '../Typography/Typography.vue';
-import { TypographyProps } from '../Typography/Typography';
+import { TypographyProps, Typography } from '../Typography';
 
 type TitleLevel = '1' | '2' | '3';
 

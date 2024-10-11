@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="component"
+    v-bind="$props"
     :class="[
       styles.wrapper,
       { 
@@ -9,7 +9,7 @@
         [styles['wrapper--caps']]: caps
       }
     ]"
-    v-bind="$attrs"
+    :is="component"
   >
     <slot></slot>
   </component>
