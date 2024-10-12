@@ -1,7 +1,7 @@
 <template>
     <Typography
-      :class="styles.wrapper"
       v-bind="$props"
+      :class="styles.wrapper"
     >
       <slot></slot>
     </Typography>
@@ -9,8 +9,7 @@
   
 <script lang="ts" setup>
   import styles from './LargeTitle.module.css';
-  import { TypographyProps } from '../Typography/Typography';
-  import Typography from '../Typography/Typography.vue';
+  import { TypographyProps, Typography } from '../Typography';
   
   type LargeTitleProps = TypographyProps;
 

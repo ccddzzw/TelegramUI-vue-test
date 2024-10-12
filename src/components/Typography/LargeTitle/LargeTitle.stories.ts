@@ -1,11 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import LargeTitle from './LargeTitle.vue';
+import { LargeTitle } from './index';
 import styles from './LargeTitle.stories.module.css';
 
 
 const meta: Meta<typeof LargeTitle> = {
   title: 'Typography/LargeTitle',
   component: LargeTitle,
+  parameters: {
+    docs: {
+      description: {
+        component: 'The LargeTitle component is designed for prominent display text, typically used for major headings or titles within an application. It encapsulates the Typography component\'s features, offering extensive styling and semantic customization options while defaulting to an `<h1>` HTML element. This choice of default component underscores the importance and hierarchy of the text it encapsulates, making it suitable for primary page titles or significant headings.'
+      }
+    }
+  },
   argTypes: {
     weight: {
       control: 'radio',
