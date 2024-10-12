@@ -1,20 +1,18 @@
 <template>
   <Typography
-    :weight="weight"
-    :caps="caps"
-    :class="classes"
-    :component="component"
+    v-bind="$props"
+    :class="[
+      styles.wrapper,
+      captionLevelStyles[level],
+    ]"
   >
     <slot></slot>
   </Typography>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import { classNames } from '../../../helpers/classNames';
 import styles from './Caption.module.css';
-import { TypographyProps } from '../Typography/Typography';
-import Typography from '../Typography/Typography.vue';
+import { TypographyProps, Typography } from '../Typography';
 
 type CaptionLevel = '1' | '2';
 
@@ -23,7 +21,7 @@ interface CaptionProps extends Omit<TypographyProps, 'plain'> {
   level?: CaptionLevel;
 }
 
-const props = withDefaults(defineProps<CaptionProps>(), {
+withDefaults(defineProps<CaptionProps>(), {
   level: '1',
   component: 'span',
   weight: '1',
@@ -35,7 +33,4 @@ const captionLevelStyles: Record<CaptionLevel, string> = {
   '2': styles['wrapper--2'],
 };
 
-const classes = computed(() => 
-  classNames(styles.wrapper, captionLevelStyles[props.level])
-);
 </script>
