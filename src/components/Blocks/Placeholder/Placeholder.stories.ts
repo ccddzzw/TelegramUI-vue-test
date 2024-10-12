@@ -1,12 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import Placeholder from './Placeholder.vue';
 import styles from './Placeholder.stories.module.css';
-import { h } from 'vue';
+import { Placeholder } from './index';
 import Button from '../Button/Button.vue';
+import { h } from 'vue';
 
 const meta = {
   title: 'Blocks/Placeholder',
   component: Placeholder,
+  parameters: {
+    docs: {
+      description: {
+        component: 'A versatile component designed to display a placeholder with optional text, images, and actions.'
+      }
+    }
+  },
   argTypes: {
     header: { control: 'text' },
     description: { control: 'text' },
@@ -18,16 +25,16 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
-    args: {
-      header: h('p', 'Title'),
-      description: h('p', 'Description'),
+  args: {
+    header: "Title",
+    description: "Description",
+  },
+  render: (args) => ({
+    components: { Placeholder },
+    setup() {
+      return { args, styles };
     },
-    render: (args) => ({
-      components: { Placeholder },
-      setup() {
-        return { args, styles };
-      },
-      template: `
+    template: `
         <div :class="styles.placeholderWrapper">
           <Placeholder v-bind="args">
             <img
@@ -38,7 +45,7 @@ export const Playground: Story = {
           </Placeholder>
         </div>
       `,
-    }),
+  }),
 };
 
 
@@ -46,20 +53,20 @@ export const WithAction: Story = {
   args: {
     header: 'Title',
     description: 'Description',
-    action: 'Click me',
+    action: h(Button, { stretched: true, size: 'l' }, 'Action'),
   },
   render: (args) => ({
     components: { Placeholder, Button },
     setup() {
-      return { args };
+      return { args, styles };
     },
     template: `
       <Placeholder v-bind="args">
-        <template #action>
-          <Button stretched size="l">
-            Action
-          </Button>
-        </template>
+        <img
+          alt="Telegram sticker"
+          src="https://xelene.me/telegram.gif"
+          :class="styles.sticker"
+        />
       </Placeholder>
     `,
   }),
