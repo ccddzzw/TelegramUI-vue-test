@@ -1,5 +1,8 @@
 <template>
-    <section :class="classes" v-bind="$attrs">
+    <section 
+      v-bind="$attrs"
+      :class="classes" 
+    >
       <slot></slot>
       <dl v-if="hasHeader || hasDescription" :class="styles.fields">
         <Title v-if="hasHeader" component="dt" level="3" weight="2">

@@ -1,15 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import Switch from './Switch.vue';
+import { Switch } from './index';
 import Placeholder from '../../Blocks/Placeholder/Placeholder.vue'
 
 const meta = {
   title: 'Form/Switch',
   component: Switch,
-  tags: ['autodocs'],
-  argTypes:{
-    className:{
-      control: false
+  parameters: {
+    docs: {
+      description: {
+        component: 'A custom switch component that mimics the behavior of a checkbox input but with enhanced styling. It supports all the standard attributes of an HTML input element of type "checkbox". The appearance of the switch can be customized to match either a base or iOS platform style using CSS modules.'
+      }
     }
+  },
+  argTypes:{
   }
 } satisfies Meta<typeof Switch>;
 
@@ -39,3 +42,25 @@ export const Playground: Story = {
     `
   })
 };
+
+// export const WithCell: Story = {
+//   render: (args) => ({
+//     components: { Cell, Switch },
+//     setup() {
+//       return { args };
+//     },
+//     template: `
+//       <Cell
+//         component="label"
+//         :description="'Pass component=\'label\' to Cell to make it clickable.'"
+//         multiline
+//       >
+//         First radio
+//         <template #after>
+//           <Switch v-bind="args" defaultChecked />
+//         </template>
+//       </Cell>
+//     `
+//   }),
+// };
+

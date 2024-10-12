@@ -3,8 +3,9 @@
       :class="[
         styles.wrapper,
         platformStyles[platform],
-        { [styles['wrapper--disabled']]: disabled },
-        className
+        { 
+          [styles['wrapper--disabled']]: disabled 
+        },
       ]"
     >
       <VisuallyHidden
@@ -22,16 +23,14 @@
 <script lang="ts" setup>
   import styles from './Switch.module.css';
   import { usePlatform } from '../../../hooks/usePlatform';
-  import VisuallyHidden from '../../Service/VisuallyHidden/VisuallyHidden.vue';
+  import { VisuallyHidden } from '../../Service/VisuallyHidden';
 
   interface SwitchProps {
     disabled?: boolean;
-    className?: string;
   }
   
   withDefaults(defineProps<SwitchProps>(), {
     disabled: false,
-    className: '',
   });
   
   const platformStyles = {

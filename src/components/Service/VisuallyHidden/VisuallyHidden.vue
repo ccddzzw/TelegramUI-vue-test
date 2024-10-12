@@ -1,24 +1,23 @@
 <template>
     <component
+      v-bind="$props"
       :is="component"
-      :class="classes"
-      v-bind="$attrs"
+      :class="[
+        styles.wrapper,
+      ]"
     >
       <slot></slot>
     </component>
   </template>
   
-  <script lang="ts" setup>
-  import { computed } from 'vue';
+<script lang="ts" setup>
   import styles from './VisuallyHidden.module.css';
-  import { classNames } from '../../../helpers/classNames';
   
-  const props = withDefaults(defineProps<{
+  withDefaults(defineProps<{
     /**
      * The HTML element to render
      */
     component?: string,
   }>(), { component: 'span' });
   
-  const classes = computed(() => classNames(styles.wrapper));
-  </script>
+</script>
