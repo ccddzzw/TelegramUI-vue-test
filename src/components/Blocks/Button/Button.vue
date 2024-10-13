@@ -1,8 +1,17 @@
 <template>
     <Tappable
+      v-bind="$props"
       :Component="Component"
-      :class="classes"
-      v-bind="$attrs"
+      :class="[
+        styles.wrapper,
+        {
+          [styles[`wrapper--${props.mode}`]]: props.mode,
+          [styles[`wrapper--${props.size}`]]: props.size,
+          [styles['wrapper--ios']]: platform === 'ios',
+          [styles['wrapper--stretched']]: props.stretched,
+          [styles['wrapper--loading']]: props.loading,
+        }
+      ]"
     >
       <Spinner v-if="loading" :class="styles.spinner" size="s" />
       <component :is="before" v-if="before" class="before">
@@ -19,13 +28,12 @@
   
 <script lang="ts" setup>
   import type { BaseHTMLAttributes, ButtonHTMLAttributes} from 'vue';
-  import { computed, VNode } from 'vue';
-  import Spinner from '../../../components/Feedback/Spinner/Spinner.vue';
-  import Tappable from '../../Service/Tappable/Tappable.vue'
-  import ButtonTypography from './ButtonTypography/ButtonTypography.vue';
-  import { usePlatform } from '../../../hooks/usePlatform';
-  import { classNames } from '../../../helpers/classNames';
+  import { VNode } from 'vue';
+  import { Spinner } from '../../../components/Feedback/Spinner';
+  import { Tappable } from '../../Service/Tappable';
+  import { usePlatform } from '../../../hooks';
   import styles from './Button.module.css';
+  import ButtonTypography from './ButtonTypography/ButtonTypography.vue';
 
   export interface ButtonProps extends /* @vue-ignore */ BaseHTMLAttributes,  /* @vue-ignore */ ButtonHTMLAttributes {
     /** Controls the size of the button, influencing padding and font size. */
@@ -51,14 +59,4 @@
   });
   
   const platform = usePlatform();
-  
-  const classes = computed(() => classNames(
-    styles.wrapper,
-    props.mode && styles[`wrapper--${props.mode}`],
-    props.size && styles[`wrapper--${props.size}`],
-    platform === 'ios' && styles['wrapper--ios'],
-    props.stretched && styles['wrapper--stretched'],
-    props.loading && styles['wrapper--loading']
-  ));
-  
 </script>

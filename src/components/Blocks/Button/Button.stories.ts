@@ -7,6 +7,13 @@ import { h } from 'vue';
 const meta = {
   title: 'Blocks/Button',
   component: Button,
+  parameters: {
+    docs: {
+      description: {
+        component: 'Renders a button or a button-like element with customizable properties, such as size, mode, and loading state. Supports adding icons or other elements before and after the text.'
+      }
+    }
+  },
   argTypes: {
     size: {
       control: 'radio',
