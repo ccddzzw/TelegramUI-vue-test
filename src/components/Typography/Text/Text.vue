@@ -17,7 +17,5 @@ type TextProps = Omit<TypographyProps, 'plain'>
 
 withDefaults(defineProps<TextProps>(), {
   component: 'span',
-  caps: false,
-  weight: '1',
 });
 </script>

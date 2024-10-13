@@ -10,11 +10,10 @@
         <Title v-if="hasHeader" component="dt" level="3" weight="2">
           {{ header }}
         </Title>
-        <Text v-if="hasDescription" :class="styles.description" component="dd">
+        <Text v-if="hasDescription" component="dd" :class="styles.description" >
           {{ description }}
         </Text>
       </dl>
-      <!-- <slot name="action" v-if="$slots.action"></slot> -->
        <component v-if="hasAction" :is="action" />
     </section>
 </template>
