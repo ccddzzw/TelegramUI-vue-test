@@ -4,11 +4,15 @@ import Spinner from './Spinner.vue';
 const meta = {
   title: 'Feedback/Spinner',
   component: Spinner,
+  parameters: {
+    docs: {
+      description: {
+        component: 'Provides a visual indicator for loading states across different platforms. It automatically selects an appropriate spinner style based on the current platform, allowing for a consistent user experience.'
+      }
+    }
+  },
   argTypes: {
     size: {
-      control: false,
-    },
-    className: {
       control: false,
     },
   },

@@ -1,7 +1,13 @@
 <template>
     <div
       role="status"
-      :class="classes"
+      :class="[
+        styles.wrapper,
+        {
+          [styles['wrapper--ios']]: platform === 'ios',
+        },
+        sizeStyles[props.size],
+      ]"
     >
       <component :is="SpinnerComponent" :size="size" />
     </div>
@@ -10,20 +16,15 @@
 <script lang="ts" setup>
   import { computed } from 'vue';
   import styles from './Spinner.module.css';
-  import { classNames } from '../../../helpers/classNames';
   import { usePlatform } from '../../../hooks/usePlatform';
-  import BaseSpinner from './components/BaseSpinner/BaseSpinner.vue';
-  import IOSSpinner from './components/IOSSpinner/IOSSpinner.vue';
+  import { BaseSpinner } from './components/BaseSpinner';
+  import { IOSSpinner } from './components/IOSSpinner';
   
   const props = withDefaults(defineProps<{
     /**
      * Determines the size of the spinner. Can be 'small' (s), 'medium' (m), or 'large' (l).
      */
     size?: 's' | 'm' | 'l',
-    /**
-     * Additional CSS class names
-     */
-    className?: string,
   }>(), { size: 'm' });
   
   const platform = usePlatform();
@@ -35,11 +36,4 @@
   };
  
   const SpinnerComponent = computed(() => platform === 'ios' ? IOSSpinner : BaseSpinner);
-  
-  const classes = computed(() => classNames(
-    styles.wrapper,
-    platform === 'ios' && styles['wrapper--ios'],
-    sizeStyles[props.size],
-    props.className,
-  ));
 </script>

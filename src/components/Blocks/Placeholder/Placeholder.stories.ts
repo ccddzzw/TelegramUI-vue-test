@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import styles from './Placeholder.stories.module.css';
 import { Placeholder } from './index';
-import Button from '../Button/Button.vue';
+import { Button } from '../Button';
 import { h } from 'vue';
 
 const meta = {
