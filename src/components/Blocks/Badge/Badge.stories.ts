@@ -1,9 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import Badge from './Badge.vue';
+import { Badge } from './index';
 
 const meta: Meta<typeof Badge> = {
   title: 'Blocks/Badge',
   component: Badge,
+  parameters: {
+    docs: {
+      description: {
+        component: 'The `Badge` component renders a small numeric or dot indicator, typically used for notifications, statuses, or counts. It supports several visual modes for different contexts (e.g., critical, primary) and can be sized normally or enlarged.'
+      }
+    }
+  },
   argTypes: {
     type: {
       control: 'radio',
@@ -13,9 +20,6 @@ const meta: Meta<typeof Badge> = {
       control: 'radio',
       options: ['primary', 'critical', 'secondary', 'gray', 'white'],
     },
-  },
-  args: {
-    type: 'dot',
   },
 };
 
