@@ -1,13 +1,16 @@
 <template>
     <div
+      v-bind="$props"
       :style="{
         width: size + 'px',
         minWidth: size + 'px',
         height: size + 'px',
         borderRadius: getBorderRadius(size) + 'px',
       }"
-      :class="classes"
-      v-bind="$attrs"
+      :class="[
+        styles.wrapper,
+        loaded && styles[`wrapper--loaded`],
+      ]"
     >
       <img
         v-if="hasSrc"
@@ -35,7 +38,6 @@
   import { computed, ref, isVNode } from 'vue';
   import { getBorderRadius } from './helpers/getBorderRadius';
   import styles from './Image.module.css';
-  import { classNames } from '../../../helpers/classNames'; 
   
   const props = withDefaults(defineProps<ImageProps>(), {
     size: 40,
@@ -68,12 +70,6 @@
  
   const hasSrc = computed(() => props.src || props.srcset);
   const needShowFallbackIcon = computed(() => (failed.value || !hasSrc.value) && isVNode(props.fallbackIcon));
-  
-  const classes = computed(() => classNames(
-    styles.wrapper,
-    loaded && styles[`wrapper--loaded`],
-    props.class
-  ));
 
 </script>
 

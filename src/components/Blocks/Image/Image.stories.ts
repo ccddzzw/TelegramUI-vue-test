@@ -1,14 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import Image, { ImageBadge } from './Image.vue';
+import { Image, ImageBadge } from './index';
 import { h } from 'vue';
 import Icon12Quote from '../../../icons/20/quote.vue';
 import Icon28Stats from '../../../icons/28/stats.vue';
 
 
-// Define the meta object for the Image component
 const meta: Meta<typeof Image> = {
   title: 'Blocks/Image',
   component: Image,
+  parameters: {
+    docs: {
+      description: {
+        component: 'Renders an image with optional fallback content. It supports custom sizing and will automatically handle loading states and errors by optionally displaying a fallback icon. This component can also include additional content, such as badges or overlays, as children.'
+      }
+    }
+  },
   argTypes: {
     size: {
       control: { type: 'select' },
