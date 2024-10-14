@@ -1,11 +1,11 @@
 <template>
     <Image
+      v-bind="$props"
       :style="{ borderRadius: '50%' }"
       :class="classes"
       :fallbackIcon="fallbackIconComponent"
       :size="size"
       :src="src"
-      v-bind="$attrs"
     >
       <slot></slot>
     </Image>

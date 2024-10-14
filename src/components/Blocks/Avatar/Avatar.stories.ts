@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import Avatar from './Avatar.vue';
-import AvatarBadge from './components/AvatarBadge/AvatarBadge.vue';
+import { Avatar, AvatarBadge } from './index';
 import { h } from 'vue';
 import Icon12Quote from '../../../icons/20/quote.vue';
 import Icon28Stats from '../../../icons/28/stats.vue';
@@ -9,7 +8,13 @@ import Icon28Stats from '../../../icons/28/stats.vue';
 const meta: Meta<typeof Avatar> = {
     title: 'Blocks/Avatar',
     component: Avatar,
-    tags: ['autodocs'],
+    parameters: {
+        docs: {
+            description: {
+                component: 'Renders an image with specific styles for an avatar presentation, including optional acronym display and badge support. Utilizes the `Image` component for core functionality, enhancing it with avatar-specific features like acronyms and badges.'
+            }
+        }
+    },
     argTypes: {
         src: { control: 'text' },
         alt: { control: 'text' },
