@@ -1,29 +1,29 @@
 <template>
     <Tappable
-      component="button"
-      :class="classes"
       v-bind="$attrs"
+      :class="[
+        styles.wrapper,
+        modeStyles[props.mode],
+        sizeStyles[props.size]
+      ]"
+      Component="button"
     >
-      <slot></slot>
+      <slot />
     </Tappable>
   </template>
  
 <script lang="ts" setup>
-  import { computed } from 'vue';
   import styles from './IconButton.module.css';
-  import { classNames } from '../../../helpers/classNames';
-  import Tappable from '../../../components/Service/Tappable/Tappable.vue';
+  import { Tappable } from '../../../components/Service/Tappable/index';
 
- /**
- * Renders an icon button with customizable size and mode. It utilizes the `Tappable` component for enhanced
- * touch interaction, allowing it to serve various UI actions efficiently.
- */
-  const props = withDefaults(defineProps<{
+  export interface IconButtonProps {
     /** Specifies the button size, affecting icon scaling. Recommended icon sizes are 20px for 's', 24px for 'm', and 28px for 'l'. */
-    size?: 's' | 'm' | 'l',
+    size?: 's' | 'm' | 'l';
     /** Defines the button's visual style, affecting its color and background. */
-    mode?: 'bezeled' | 'plain' | 'gray' | 'outline',
-  }>(), {
+    mode?: 'bezeled' | 'plain' | 'gray' | 'outline';
+  }
+
+  const props = withDefaults(defineProps<IconButtonProps>(), {
     size: 'm',
     mode: 'bezeled',
   });
@@ -40,12 +40,4 @@
     m: styles['wrapper--m'],
     l: styles['wrapper--l'],
   };
-
-  const classes = computed(() => {
-    return classNames(
-      styles.wrapper,
-      modeStyles[props.mode],
-      sizeStyles[props.size]
-    );
-  });
 </script>

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import IconButton from './IconButton.vue';
+import { IconButton } from './index';
 import Icon20QuestionMark from '../../../icons/20/question_mark.vue';
 import Icon20QR from '../../../icons/24/qr.vue';
 import Icon28Stats from '../../../icons/28/stats.vue';
@@ -7,6 +7,13 @@ import Icon28Stats from '../../../icons/28/stats.vue';
 const meta = {
   title: 'Blocks/IconButton',
   component: IconButton,
+  parameters: {
+    docs: {
+      description: {
+        component: 'Renders an icon button with customizable size and mode. It utilizes the `Tappable` component for enhanced touch interaction, allowing it to serve various UI actions efficiently.'
+      }
+    }
+  },
   argTypes: {
     size: {
       control: 'radio',
