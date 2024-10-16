@@ -4,20 +4,14 @@
   </AppRoot>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import { AppRoot } from '../../src/index';
+<script setup lang="ts">
+  import { AppRoot } from '../../src/index';
+  import type { PropType } from 'vue';
 
-export default defineComponent({
-  name: 'AppRootDecorator',
-  components: {
-    AppRoot,
-  },
-  props: {
+  defineProps({
     globals: {
       type: Object as PropType<any>,
       required: true,
     },
-  },
-});
+  });
 </script>

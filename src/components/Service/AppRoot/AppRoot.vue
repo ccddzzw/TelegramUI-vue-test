@@ -1,25 +1,25 @@
 <template>
   <div
-    ref="rootRef"
-    :class="wrapperClasses"
     v-bind="$attrs"
+    ref="rootRef"
+    :class="[
+      styles.wrapper,
+      state.platform === 'ios' && styles['wrapper--ios'],
+      state.appearance === 'dark' && styles['wrapper--dark']
+    ]"
   >
     <slot></slot>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, computed, ref } from 'vue'
-import { useAppearance } from './hooks/useAppearance'
-import { usePlatform } from './hooks/usePlatform'
-import { provideAppRoot, AppRootState } from './AppRootContext'
-import { classNames } from '../../../helpers/classNames';
-import styles from './AppRoot.module.css';
-
-export default defineComponent({
-  name: 'AppRoot',
-  inheritAttrs: false,
-  props: {
+<script lang="ts" setup>
+  import { PropType, ref } from 'vue'
+  import { useAppearance } from './hooks/useAppearance'
+  import { usePlatform } from './hooks/usePlatform'
+  import { provideAppRoot, AppRootState } from './AppRootContext'
+  import styles from './AppRoot.module.css';
+  
+  const props = defineProps({
     platform: {
       type: String as PropType<AppRootState['platform']>,
       default: "base" 
@@ -28,33 +28,19 @@ export default defineComponent({
       type: String as PropType<AppRootState['appearance']>,
       default: "light"
     }
-  },
-  setup(props) {
-    const rootRef = ref<HTMLDivElement | null>(null)
-    const { setState, state } = provideAppRoot()
-
-    const appearance = useAppearance(props.appearance)
-    const platform = usePlatform(props.platform)
-
-    const wrapperClasses = computed(() => [
-      classNames(styles.wrapper, 
-        platform === 'ios' && styles['wrapper--ios'],
-        appearance === 'dark' && styles['wrapper--dark']
-      )
-    ])
-
-    setState({
-      platform: platform,
-      appearance: appearance,
-      portalContainer: rootRef,
-      isRendered: true
-    })
-
-    return {
-      rootRef,
-      wrapperClasses,
-      state
-    }
-  }
-})
+  });
+  
+  const rootRef = ref<HTMLDivElement | null>(null);
+  const { setState, state } = provideAppRoot();
+  
+  const appearance = useAppearance(props.appearance);
+  const platform = usePlatform(props.platform);
+  
+  
+  setState({
+    platform: platform,
+    appearance: appearance,
+    portalContainer: rootRef,
+    isRendered: true
+  });
 </script>

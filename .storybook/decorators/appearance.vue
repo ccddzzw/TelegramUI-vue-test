@@ -4,25 +4,19 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
-
-export default defineComponent({
-  name: 'AppearanceDecorator',
-  props: {
+<script setup lang="ts">
+  import { computed } from 'vue';
+  
+  const props = defineProps({
     appearance: {
       type: String,
       default: 'light',
     },
-  },
-  setup(props) {
-    const backgroundColor = computed(() => 
-      props.appearance === 'dark' ? '#212121' : '#FFF'
-    );
-
-    return { backgroundColor };
-  },
-});
+  });
+  
+  const backgroundColor = computed(() => 
+    props.appearance === 'dark' ? '#212121' : '#FFF'
+  );
 </script>
 
 <style scoped>

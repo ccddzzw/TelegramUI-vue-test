@@ -1,3 +1,4 @@
 import Badge from './Badge.vue';
+import type { BadgeProps } from './Badge';
 
-export { Badge };
+export { Badge, BadgeProps };

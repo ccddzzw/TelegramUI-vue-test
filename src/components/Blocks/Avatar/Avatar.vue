@@ -2,7 +2,11 @@
     <Image
       v-bind="$props"
       :style="{ borderRadius: '50%' }"
-      :class="classes"
+      :class="[
+        styles.wrapper,
+        props.acronym && styles['wrapper--withAcronym'],
+        props.class
+      ]"
       :fallbackIcon="fallbackIconComponent"
       :size="size"
       :src="src"
@@ -13,7 +17,6 @@
   
 <script lang="ts" setup>
   import { computed, h } from 'vue';
-  import { classNames } from '../../../helpers/classNames'
   import Image from '../Image/Image.vue';
   import { ImageProps } from '../Image/image';
   import AvatarAcronym from './components/AvatarAcronym/AvatarAcronym.vue';
@@ -26,12 +29,6 @@
   }
   
   const props = withDefaults(defineProps<AvatarProps>(), {});
-  
-  const classes = computed(() => classNames(
-    styles.wrapper,
-    props.acronym && styles['wrapper--withAcronym'],
-    props.class
-  ));
   
   const fallbackIconComponent = computed(() => 
     props.acronym

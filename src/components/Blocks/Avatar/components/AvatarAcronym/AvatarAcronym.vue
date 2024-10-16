@@ -1,10 +1,10 @@
 <template>
     <component
+      v-bind="$attrs"
       :is="componentType"
       :weight="weight"
       :level="level"
       caps
-      v-bind="$attrs"
     >
       <slot></slot>
     </component>
