@@ -24,7 +24,7 @@ Telegram UI kit equips you with a variety of pre-designed components and tools t
 ## Resources
 
 - **Example Mini App:** Vue version — [GitHub Repository](https://github.com/TownSquareXYZ/TGUI-Example-Vue)
-- **Playground and Storybook:** Experiment with components and visualize changes in real-time at [Playground and Storybook](https://tgui.xelene.me/).
+- **Playground and Storybook:** Experiment with components and visualize changes in real-time at [Playground and Storybook](https://telegram-ui-vue.vercel.app/).
 - **Figma Resources:** Design and prototype with ease using our comprehensive Figma files available at [Figma](https://figma.com/community/file/1348989725141777736/).
 
 ## Installation
@@ -70,10 +70,10 @@ import { AppRoot, Placeholder } from '@townsquarelabs/telegram-ui-vue';
 
 ## 🤝 Contributing [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-<a href="https://next.ossinsight.io/widgets/official/compose-recent-active-contributors?limit=30&repo_id=738096149" target="_blank" style="display: block" align="center">
+<a href="https://next.ossinsight.io/widgets/official/compose-recent-active-contributors?repo_id=840342424&limit=30" target="_blank" style="display: block" align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://next.ossinsight.io/widgets/official/compose-recent-active-contributors/thumbnail.png?limit=30&repo_id=738096149&image_size=auto&color_scheme=dark" width="655" height="auto">
-    <img alt="Active Contributors of TownSquareXYZ/TelegramUI - Last 28 days" src="https://next.ossinsight.io/widgets/official/compose-recent-active-contributors/thumbnail.png?limit=30&repo_id=738096149&image_size=auto&color_scheme=light" width="655" height="auto">
+    <source media="(prefers-color-scheme: dark)" srcset="https://next.ossinsight.io/widgets/official/compose-recent-active-contributors/thumbnail.png?repo_id=840342424&limit=30&image_size=auto&color_scheme=dark" width="655" height="auto">
+    <img alt="Active Contributors of TownSquareXYZ/TelegramUI-vue - Last 28 days" src="https://next.ossinsight.io/widgets/official/compose-recent-active-contributors/thumbnail.png?repo_id=840342424&limit=30&image_size=auto&color_scheme=light" width="655" height="auto">
   </picture>
 </a>
 
