@@ -53,7 +53,7 @@ export const WithAction: Story = {
   args: {
     header: 'Title',
     description: 'Description',
-    action: h(Button, { stretched: true, size: 'l' }, 'Action'),
+    action: h(Button, { stretched: true, size: 'l' }, () => 'Action'),
   },
   render: (args) => ({
     components: { Placeholder, Button },
