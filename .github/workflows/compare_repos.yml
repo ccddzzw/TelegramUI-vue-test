@@ -1,0 +1,96 @@
+name: Compare Repositories
+
+on:
+  schedule:
+    # Runs every Monday at 00:00 UTC
+    - cron: '0 0 * * MON'
+  workflow_dispatch:  # Add this to enable manual triggers
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Add permissions to write to the repository
+
+    steps:
+      - name: Checkout Repository A
+        uses: actions/checkout@v2
+        with:
+          repository: Telegram-Mini-Apps/TelegramUI  # Fixed repository format
+          path: repoA
+
+      - name: Checkout Repository B
+        uses: actions/checkout@v2
+        with:
+          repository: ccddzzw/TelegramUI-vue-test  # Fixed repository format
+          path: repoB
+          token: ${{ secrets.GITHUB_TOKEN }}  # Add token for authentication
+          fetch-depth: 0  # Fetch all history
+
+      - name: Compare Directory Names
+        run: |
+          # Find all stories files in repoA and repoB
+          componentsA=$(find repoA/src/components -type f -name "*.stories.*" | sed 's|.*/\([^/]*\)/[^/]*\.stories\..*|\1|' | sort -u)
+          componentsB=$(find repoB/src/components -type f -name "*.stories.*" | sed 's|.*/\([^/]*\)/[^/]*\.stories\..*|\1|' | sort -u)
+
+          # Create temporary file with the new table
+          {
+            echo "## Rate of progress"
+            echo
+            echo "| React Version | Vue Implementation |"
+            echo "|---------------|--------------------|"
+            
+            # First output components with Vue Version = Y
+            echo "$componentsA" | while read -r component; do
+              if [ -n "$component" ]; then
+                if echo "$componentsB" | grep -q "^${component}$"; then
+                  echo "| $component | ✅ |"
+                fi
+              fi
+            done
+
+            # Then output components with Vue Version = N
+            echo "$componentsA" | while read -r component; do
+              if [ -n "$component" ]; then
+                if ! echo "$componentsB" | grep -q "^${component}$"; then
+                  echo "| $component | 🚫 |"
+                fi
+              fi
+            done
+          } > temp_table.md
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install mdimg
+        run: npm install -g @mermaid-js/mermaid-cli
+
+      - name: Convert Markdown to Image
+        run: |
+          # Install necessary packages
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser
+
+          # Convert markdown to image using mermaid-cli
+          mmdc -i temp_table.md -o progress_table.png -b transparent
+
+      - name: Upload to Existing GitHub Issue
+        id: upload
+        run: |
+          # Upload the image to the existing issue #1
+          UPLOAD_URL=$(curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: multipart/form-data" \
+            -F "file=@progress_table.png" \
+            "https://api.github.com/repos/${{ github.repository }}/issues/1/comments" \
+            | jq -r '.body | match("!\\[.*\\]\\((.*?)\\)").captures[0].string')
+          
+          echo "IMAGE_URL=$UPLOAD_URL" >> $GITHUB_ENV
+          echo "Image uploaded to issue #1"
+
+      - name: Update README with Image URL
+        run: |
+          echo "![Progress Table](${{ env.IMAGE_URL }})" > progress_section.md
+          # Optionally, you can update your README.md here
