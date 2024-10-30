@@ -9,19 +9,23 @@ on:
 jobs:
   compare:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Add permissions to write to the repository
 
     steps:
       - name: Checkout Repository A
         uses: actions/checkout@v2
         with:
-          repository: Telegram-Mini-Apps/TelegramUI
+          repository: Telegram-Mini-Apps/TelegramUI  # Fixed repository format
           path: repoA
 
       - name: Checkout Repository B
         uses: actions/checkout@v2
         with:
-          repository: ccddzzw/TelegramUI-vue-test
+          repository: ccddzzw/TelegramUI-vue-test  # Fixed repository format
           path: repoB
+          token: ${{ secrets.GITHUB_TOKEN }}  # Add token for authentication
+          fetch-depth: 0  # Fetch all history
 
       - name: Compare Directory Names
         run: |
@@ -60,24 +64,58 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install mdimg
-        run: npm install -g @mermaid-js/mermaid-cli
+      - name: Install dependencies
+        run: |
+          npm init -y
+          npm install node-html-to-image
 
       - name: Convert Markdown to Image
         run: |
-          # Convert markdown to image using mermaid-cli
-          mmdc -i temp_table.md -o progress_table.png -b transparent
+          cat << EOF > convert.js
+          const nodeHtmlToImage = require('node-html-to-image');
+          const fs = require('fs');
+
+          const markdown = fs.readFileSync('temp_table.md', 'utf8');
+          
+          const html = \`
+          <html>
+            <head>
+              <style>
+                body { font-family: Arial, sans-serif; padding: 20px; }
+                table { border-collapse: collapse; }
+                th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                th { background-color: #f2f2f2; }
+              </style>
+            </head>
+            <body>
+              <div id="content">\${markdown}</div>
+            </body>
+          </html>\`;
+
+          nodeHtmlToImage({
+            output: './progress_table.png',
+            html: html,
+            type: 'png',
+            puppeteerArgs: {
+              args: ['--no-sandbox']
+            }
+          }).then(() => console.log('Image created successfully!'));
+          EOF
+
+          node convert.js
 
       - name: Upload to Existing GitHub Issue
         id: upload
         run: |
-          # Upload the image to the existing issue #
-          curl -X POST \
+          # Upload the image to the existing issue #1
+          UPLOAD_URL=$(curl -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github.v3+json" \
+            -H "Content-Type: multipart/form-data" \
+            -F "file=@progress_table.png" \
             "https://api.github.com/repos/${{ github.repository }}/issues/1/comments" \
-            -F "body=<progress_table.png"
+            | jq -r '.body | match("!\\[.*\\]\\((.*?)\\)").captures[0].string')
           
+          echo "IMAGE_URL=$UPLOAD_URL" >> $GITHUB_ENV
           echo "Image uploaded to issue #1"
 
       - name: Update README with Image URL
