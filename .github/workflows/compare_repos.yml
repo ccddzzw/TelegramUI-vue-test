@@ -128,16 +128,36 @@ jobs:
       - name: Upload to Existing GitHub Issue
         id: upload
         run: |
-          # Upload the image to the existing issue #1
-          UPLOAD_URL=$(curl -X POST \
+          # First, upload the image to GitHub's content storage
+          RESPONSE=$(curl -X PUT \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Content-Type: multipart/form-data" \
-            -F "file=@progress_table.png" \
-            "https://api.github.com/repos/${{ github.repository }}/issues/1/comments" \
-            | jq -r '.body | match("!\\[.*\\]\\((.*?)\\)").captures[0].string')
+            -H "Content-Type: application/json" \
+            -d "{
+              \"message\": \"Update progress table\",
+              \"content\": \"$(base64 -w 0 progress_table.png)\"
+            }" \
+            "https://api.github.com/repos/${{ github.repository }}/contents/assets/progress_table.png")
           
-          echo "IMAGE_URL=$UPLOAD_URL" >> $GITHUB_ENV
-          echo "Image uploaded to issue #1"
+          # Extract the download URL from the response
+          IMAGE_URL=$(echo "$RESPONSE" | jq -r '.content.download_url // empty')
+          
+          if [ -n "$IMAGE_URL" ]; then
+            echo "IMAGE_URL=$IMAGE_URL" >> $GITHUB_ENV
+            
+            # Create comment with the image
+            curl -X POST \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Content-Type: application/json" \
+              -d "{\"body\": \"![Progress Table]($IMAGE_URL)\"}" \
+              "https://api.github.com/repos/${{ github.repository }}/issues/1/comments"
+            
+            echo "Image uploaded and commented to issue #1"
+          else
+            echo "Failed to get image URL from response"
+            echo "$RESPONSE"
+            exit 1
+          fi
 
       - name: Update README with Image URL
         run: |
