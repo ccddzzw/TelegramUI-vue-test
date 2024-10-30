@@ -77,37 +77,50 @@ jobs:
           const marked = require('marked');
 
           async function convertToImage() {
-            const markdown = fs.readFileSync('temp_table.md', 'utf8');
-            const html = marked.parse(markdown);
-            
-            const browser = await puppeteer.launch({
-              args: ['--no-sandbox', '--disable-setuid-sandbox']
-            });
-            const page = await browser.newPage();
-            
-            await page.setContent(\`
-              <html>
-                <head>
-                  <style>
-                    body { font-family: Arial, sans-serif; padding: 20px; }
-                    table { border-collapse: collapse; }
-                    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                    th { background-color: #f2f2f2; }
-                  </style>
-                </head>
-                <body>
-                  \${html}
-                </body>
-              </html>\`);
+            let browser = null;
+            try {
+              const markdown = fs.readFileSync('temp_table.md', 'utf8');
+              const html = marked.parse(markdown);
+              
+              browser = await puppeteer.launch({
+                args: ['--no-sandbox', '--disable-setuid-sandbox']
+              });
+              const page = await browser.newPage();
+              
+              await page.setContent(\`
+                <html>
+                  <head>
+                    <style>
+                      body { font-family: Arial, sans-serif; padding: 20px; }
+                      table { border-collapse: collapse; }
+                      th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                      th { background-color: #f2f2f2; }
+                    </style>
+                  </head>
+                  <body>
+                    \${html}
+                  </body>
+                </html>\`);
 
-            await page.screenshot({
-              path: './progress_table.png',
-              type: 'png',
-              fullPage: true
-            });
+              await page.screenshot({
+                path: './progress_table.png',
+                type: 'png',
+                fullPage: true
+              });
+            } catch (error) {
+              console.error('Error:', error);
+              process.exit(1);
+            } finally {
+              if (browser) {
+                await browser.close();
+              }
+            }
           }
 
-          convertToImage().then(() => console.log('Image created successfully!'));
+          // Properly handle the async function
+          convertToImage()
+            .then(() => process.exit(0))
+            .catch(() => process.exit(1));
           EOF
 
           node convert.js
