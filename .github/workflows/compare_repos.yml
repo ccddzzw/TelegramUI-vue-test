@@ -128,16 +128,22 @@ jobs:
 
       - name: Upload to Existing GitHub Issue
         run: |
-          # Upload the image and capture the response
+          # First, encode the image in base64
+          BASE64_IMAGE=$(base64 -w 0 progress_table.png)
+          
+          # Create the comment with the image
+          JSON_DATA=$(jq -n \
+            --arg body "![Progress Table](data:image/png;base64,$BASE64_IMAGE)" \
+            '{body: $body}')
+          
+          # Upload the comment with the embedded image
           RESPONSE=$(curl -X POST \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
-            -F "file=@progress_table.png" \
+            -H "Content-Type: application/json" \
+            -d "$JSON_DATA" \
             "https://api.github.com/repos/${{ github.repository }}/issues/1/comments")
           
-          # Print the response for debugging
-          echo "$RESPONSE"
-          
-          # Extract the image URL more simply
-          IMAGE_URL=$(echo "$RESPONSE" | jq -r '.url')
-          echo "Image URL: $IMAGE_URL"
+          # Print the response and URL
+          echo "Response: $RESPONSE"
+          echo "Comment URL: $(echo "$RESPONSE" | jq -r '.html_url')"
