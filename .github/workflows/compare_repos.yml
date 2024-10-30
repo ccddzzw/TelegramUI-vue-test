@@ -128,14 +128,22 @@ jobs:
       - name: Upload to Existing GitHub Issue
         id: upload
         run: |
-          # First, upload the image to GitHub's content storage
+          # Create assets directory if it doesn't exist
+          mkdir -p assets
+
+          # Create the JSON payload in a file
+          base64 -w 0 progress_table.png > temp_image_base64.txt
+          
+          jq -n --rawfile content temp_image_base64.txt '{
+            message: "Update progress table",
+            content: $content
+          }' > payload.json
+          
+          # Upload the image using the payload file
           RESPONSE=$(curl -X PUT \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Content-Type: application/json" \
-            -d "{
-              \"message\": \"Update progress table\",
-              \"content\": \"$(base64 -w 0 progress_table.png)\"
-            }" \
+            --data @payload.json \
             "https://api.github.com/repos/${{ github.repository }}/contents/assets/progress_table.png")
           
           # Extract the download URL from the response
@@ -158,6 +166,9 @@ jobs:
             echo "$RESPONSE"
             exit 1
           fi
+          
+          # Clean up temporary files
+          rm temp_image_base64.txt payload.json
 
       - name: Update README with Image URL
         run: |
