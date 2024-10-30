@@ -62,44 +62,52 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '18'  # Updated to Node.js 18
 
       - name: Install dependencies
         run: |
           npm init -y
-          npm install node-html-to-image
+          npm install puppeteer node-html-to-image marked
 
       - name: Convert Markdown to Image
         run: |
           cat << EOF > convert.js
-          const nodeHtmlToImage = require('node-html-to-image');
+          const puppeteer = require('puppeteer');
           const fs = require('fs');
+          const marked = require('marked');
 
-          const markdown = fs.readFileSync('temp_table.md', 'utf8');
-          
-          const html = \`
-          <html>
-            <head>
-              <style>
-                body { font-family: Arial, sans-serif; padding: 20px; }
-                table { border-collapse: collapse; }
-                th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                th { background-color: #f2f2f2; }
-              </style>
-            </head>
-            <body>
-              <div id="content">\${markdown}</div>
-            </body>
-          </html>\`;
+          async function convertToImage() {
+            const markdown = fs.readFileSync('temp_table.md', 'utf8');
+            const html = marked.parse(markdown);
+            
+            const browser = await puppeteer.launch({
+              args: ['--no-sandbox', '--disable-setuid-sandbox']
+            });
+            const page = await browser.newPage();
+            
+            await page.setContent(\`
+              <html>
+                <head>
+                  <style>
+                    body { font-family: Arial, sans-serif; padding: 20px; }
+                    table { border-collapse: collapse; }
+                    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                    th { background-color: #f2f2f2; }
+                  </style>
+                </head>
+                <body>
+                  \${html}
+                </body>
+              </html>\`);
 
-          nodeHtmlToImage({
-            output: './progress_table.png',
-            html: html,
-            type: 'png',
-            puppeteerArgs: {
-              args: ['--no-sandbox']
-            }
-          }).then(() => console.log('Image created successfully!'));
+            await page.screenshot({
+              path: './progress_table.png',
+              type: 'png',
+              fullPage: true
+            });
+          }
+
+          convertToImage().then(() => console.log('Image created successfully!'));
           EOF
 
           node convert.js
