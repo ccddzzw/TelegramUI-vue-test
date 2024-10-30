@@ -10,7 +10,8 @@ jobs:
   compare:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Add permissions to write to the repository
+      contents: write
+      issues: write
 
     steps:
       - name: Checkout Repository A
@@ -129,22 +130,14 @@ jobs:
         run: |
           # Upload the image and capture the response
           RESPONSE=$(curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
-            -H "Content-Type: multipart/form-data" \
-            -F "body=Progress Table:" \
             -F "file=@progress_table.png" \
             "https://api.github.com/repos/${{ github.repository }}/issues/1/comments")
           
-          # Extract the image URL from the response
+          # Print the response for debugging
           echo "$RESPONSE"
-          IMAGE_URL=$(echo "$RESPONSE" | jq -r '.body | capture("!\\[Progress Table\\]\\((?<url>[^\\)]+)\\)")?.url // empty')
           
-          # Save and echo the URL
-          if [ -n "$IMAGE_URL" ]; then
-            echo "IMAGE_URL=$IMAGE_URL" >> $GITHUB_ENV
-            echo "Image URL: $IMAGE_URL"
-          else
-            echo "Failed to get image URL from response"
-            exit 1
-          fi
+          # Extract the image URL more simply
+          IMAGE_URL=$(echo "$RESPONSE" | jq -r '.url')
+          echo "Image URL: $IMAGE_URL"
