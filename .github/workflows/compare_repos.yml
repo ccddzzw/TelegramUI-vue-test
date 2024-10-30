@@ -9,23 +9,19 @@ on:
 jobs:
   compare:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # Add permissions to write to the repository
 
     steps:
       - name: Checkout Repository A
         uses: actions/checkout@v2
         with:
-          repository: Telegram-Mini-Apps/TelegramUI  # Fixed repository format
+          repository: Telegram-Mini-Apps/TelegramUI
           path: repoA
 
       - name: Checkout Repository B
         uses: actions/checkout@v2
         with:
-          repository: ccddzzw/TelegramUI-vue-test  # Fixed repository format
+          repository: ccddzzw/TelegramUI-vue-test
           path: repoB
-          token: ${{ secrets.GITHUB_TOKEN }}  # Add token for authentication
-          fetch-depth: 0  # Fetch all history
 
       - name: Compare Directory Names
         run: |
@@ -69,25 +65,19 @@ jobs:
 
       - name: Convert Markdown to Image
         run: |
-          # Install necessary packages
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser
-
           # Convert markdown to image using mermaid-cli
           mmdc -i temp_table.md -o progress_table.png -b transparent
 
       - name: Upload to Existing GitHub Issue
         id: upload
         run: |
-          # Upload the image to the existing issue #1
-          UPLOAD_URL=$(curl -X POST \
+          # Upload the image to the existing issue #
+          curl -X POST \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Content-Type: multipart/form-data" \
-            -F "file=@progress_table.png" \
+            -H "Accept: application/vnd.github.v3+json" \
             "https://api.github.com/repos/${{ github.repository }}/issues/1/comments" \
-            | jq -r '.body | match("!\\[.*\\]\\((.*?)\\)").captures[0].string')
+            -F "body=<progress_table.png"
           
-          echo "IMAGE_URL=$UPLOAD_URL" >> $GITHUB_ENV
           echo "Image uploaded to issue #1"
 
       - name: Update README with Image URL
