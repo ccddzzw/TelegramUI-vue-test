@@ -3,31 +3,32 @@ name: Compare Repositories
 on:
   schedule:
     # Runs every Monday at 00:00 UTC
-    - cron: '0 0 * * MON'
-  workflow_dispatch:  # Add this to enable manual triggers
+    - cron: "0 0 * * MON"
+  workflow_dispatch: # Add this to enable manual triggers
 
 jobs:
   compare:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Add permissions to write to the repository
+      contents: write # Add permissions to write to the repository
 
     steps:
       - name: Checkout Repository A
         uses: actions/checkout@v2
         with:
-          repository: Telegram-Mini-Apps/TelegramUI  # Fixed repository format
+          repository: Telegram-Mini-Apps/TelegramUI # Fixed repository format
           path: repoA
 
       - name: Checkout Repository B
         uses: actions/checkout@v2
         with:
-          repository: TownSquareXYZ/TelegramUI-vue  # Fixed repository format
+          repository: ${{ github.repository }} # This will automatically use the current repository
           path: repoB
-          token: ${{ secrets.GITHUB_TOKEN }}  # Add token for authentication
-          fetch-depth: 0  # Fetch all history
+          token: ${{ secrets.GITHUB_TOKEN }} # Add token for authentication
+          fetch-depth: 0 # Fetch all history
 
       - name: Compare Directory Names
+        id: compare
         run: |
           # Find all stories files in repoA and repoB
           componentsA=$(find repoA/src/components -type f -name "*.stories.*" | sed 's|.*/\([^/]*\)/[^/]*\.stories\..*|\1|' | sort -u)
@@ -59,9 +60,16 @@ jobs:
             done
           } > temp_table.md
 
-          # First extract current content between markers
-          awk '/^## Rate of progress$/,/^## Installation$/' repoB/README.md > current_section.md
-          
+          # Extract current content between markers (excluding end marker)
+          awk '
+            /^## Rate of progress$/,/^## Installation$/ {
+              if ($0 != "## Installation") print
+            }
+          ' repoB/README.md > current_section.md
+
+          echo "Current section: $(cat current_section.md)"
+          echo "New section: $(cat temp_table.md)"
+
           # Compare current section with new content
           if ! cmp -s current_section.md temp_table.md; then
             # Files are different, proceed with replacement
@@ -71,26 +79,19 @@ jobs:
               /^## Installation$/     {p=1}
               p==1        {print}
             ' repoB/README.md > new_readme.md
-            
+
             mv new_readme.md repoB/README.md
             echo "README.md has been updated with new progress table"
+
+            # Commit and push changes
+            cd repoB
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git add README.md
+            git commit -m "Update README.md with differences between React and Vue implementations"
+            git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+            git push origin HEAD:main
+
           else
-            echo "No changes needed in README.md - progress table is up to date"
+            echo "No components have been added or removed since last update"
           fi
-          
-          # Clean up temporary file
-          rm current_section.md
-
-      - name: Commit Changes
-        run: |
-          cd repoB
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          git commit -m "Update README.md with differences between React and Vue implementations"
-
-      - name: Push Changes
-        working-directory: repoB  # Set working directory
-        run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/TownSquareXYZ/TelegramUI-vue.git
-          git push origin HEAD:main
