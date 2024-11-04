@@ -27,6 +27,10 @@ Telegram UI kit equips you with a variety of pre-designed components and tools t
 - **Playground and Storybook:** Experiment with components and visualize changes in real-time at [Playground and Storybook](https://telegram-ui-vue.vercel.app/).
 - **Figma Resources:** Design and prototype with ease using our comprehensive Figma files available at [Figma](https://figma.com/community/file/1348989725141777736/).
 
+## Rate of progress
+
+
+
 ## Installation
 
 ```sh

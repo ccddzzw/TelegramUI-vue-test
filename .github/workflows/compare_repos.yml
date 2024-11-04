@@ -22,7 +22,7 @@ jobs:
       - name: Checkout Repository B
         uses: actions/checkout@v2
         with:
-          repository: ccddzzw/TelegramUI-vue-test  # Fixed repository format
+          repository: TownSquareXYZ/TelegramUI-vue  # Fixed repository format
           path: repoB
           token: ${{ secrets.GITHUB_TOKEN }}  # Add token for authentication
           fetch-depth: 0  # Fetch all history
@@ -59,38 +59,38 @@ jobs:
             done
           } > temp_table.md
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-      - name: Install mdimg
-        run: npm install -g @mermaid-js/mermaid-cli
-
-      - name: Convert Markdown to Image
-        run: |
-          # Install necessary packages
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser
-
-          # Convert markdown to image using mermaid-cli
-          mmdc -i temp_table.md -o progress_table.png -b transparent
-
-      - name: Upload to Existing GitHub Issue
-        id: upload
-        run: |
-          # Upload the image to the existing issue #1
-          UPLOAD_URL=$(curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Content-Type: multipart/form-data" \
-            -F "file=@progress_table.png" \
-            "https://api.github.com/repos/${{ github.repository }}/issues/1/comments" \
-            | jq -r '.body | match("!\\[.*\\]\\((.*?)\\)").captures[0].string')
+          # First extract current content between markers
+          awk '/^## Rate of progress$/,/^## Installation$/' repoB/README.md > current_section.md
           
-          echo "IMAGE_URL=$UPLOAD_URL" >> $GITHUB_ENV
-          echo "Image uploaded to issue #1"
+          # Compare current section with new content
+          if ! cmp -s current_section.md temp_table.md; then
+            # Files are different, proceed with replacement
+            awk '
+              BEGIN       {p=1}
+              /^## Rate of progress$/ {system("cat temp_table.md"); p=0}
+              /^## Installation$/     {p=1}
+              p==1        {print}
+            ' repoB/README.md > new_readme.md
+            
+            mv new_readme.md repoB/README.md
+            echo "README.md has been updated with new progress table"
+          else
+            echo "No changes needed in README.md - progress table is up to date"
+          fi
+          
+          # Clean up temporary file
+          rm current_section.md
 
-      - name: Update README with Image URL
+      - name: Commit Changes
         run: |
-          echo "![Progress Table](${{ env.IMAGE_URL }})" > progress_section.md
-          # Optionally, you can update your README.md here
+          cd repoB
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "Update README.md with differences between React and Vue implementations"
+
+      - name: Push Changes
+        working-directory: repoB  # Set working directory
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/TownSquareXYZ/TelegramUI-vue.git
+          git push origin HEAD:main
