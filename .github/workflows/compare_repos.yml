@@ -6,11 +6,13 @@ on:
     - cron: "0 0 * * MON"
   workflow_dispatch: # Add this to enable manual triggers
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   compare:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # Add permissions to write to the repository
 
     steps:
       - name: Checkout Repository A
@@ -24,7 +26,7 @@ jobs:
         with:
           repository: ${{ github.repository }} # This will automatically use the current repository
           path: repoB
-          token: ${{ secrets.GITHUB_TOKEN }} # Add token for authentication
+          token: ${{ secrets.PAT_TOKEN }} # Add token for authentication
           fetch-depth: 0 # Fetch all history
 
       - name: Install GitHub
@@ -34,6 +36,8 @@ jobs:
 
       - name: Compare Directory Names
         id: compare
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           # Find all stories files in repoA and repoB
           componentsA=$(find repoA/src/components -type f -name "*.stories.*" | sed 's|.*/\([^/]*\)/[^/]*\.stories\..*|\1|' | sort -u)
@@ -102,7 +106,7 @@ jobs:
             git push origin $branch_name
 
             # Create Pull Request using GitHub CLI
-            gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+            gh auth login --with-token <<< "${{ secrets.PAT_TOKEN }}"
             gh pr create \
               --title "Update React vs Vue implementation progress" \
               --body "Automated update of the implementation progress table in README.md" \
