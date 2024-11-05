@@ -18,16 +18,17 @@ jobs:
       - name: Checkout Repository A
         uses: actions/checkout@v2
         with:
-          repository: Telegram-Mini-Apps/TelegramUI # Fixed repository format
+          repository: Telegram-Mini-Apps/TelegramUI
           path: repoA
+          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Checkout Repository B
         uses: actions/checkout@v2
         with:
-          repository: ${{ github.repository }} # This will automatically use the current repository
+          repository: ${{ github.repository }}
           path: repoB
-          token: ${{ secrets.PAT_TOKEN }} # Add token for authentication
-          fetch-depth: 0 # Fetch all history
+          token: ${{ secrets.PAT_TOKEN }}
+          fetch-depth: 0
 
       - name: Install GitHub
         run: |
