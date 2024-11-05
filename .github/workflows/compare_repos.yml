@@ -27,6 +27,11 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }} # Add token for authentication
           fetch-depth: 0 # Fetch all history
 
+      - name: Install GitHub
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gh
+
       - name: Compare Directory Names
         id: compare
         run: |
@@ -83,15 +88,26 @@ jobs:
             mv new_readme.md repoB/README.md
             echo "README.md has been updated with new progress table"
 
-            # Commit and push changes
+            # Create a new branch and commit changes
             cd repoB
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            
+            # Create a new branch with timestamp
+            branch_name="update-readme-$(date +%Y%m%d-%H%M%S)"
+            git checkout -b $branch_name
+            
             git add README.md
             git commit -m "Update README.md with differences between React and Vue implementations"
-            git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-            git push origin HEAD:main
+            git push origin $branch_name
 
+            # Create Pull Request using GitHub CLI
+            gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+            gh pr create \
+              --title "Update React vs Vue implementation progress" \
+              --body "Automated update of the implementation progress table in README.md" \
+              --base main \
+              --head $branch_name
           else
             echo "No components have been added or removed since last update"
           fi
