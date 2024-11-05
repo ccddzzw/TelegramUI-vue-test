@@ -29,8 +29,78 @@ Telegram UI kit equips you with a variety of pre-designed components and tools t
 
 ## Rate of progress
 
-
-
+| React Version | Vue Implementation |
+|---------------|--------------------|
+| Avatar | ✅ |
+| Badge | ✅ |
+| Button | ✅ |
+| Caption | ✅ |
+| CircularProgress | ✅ |
+| Headline | ✅ |
+| IconButton | ✅ |
+| Image | ✅ |
+| LargeTitle | ✅ |
+| Placeholder | ✅ |
+| Spinner | ✅ |
+| Subheadline | ✅ |
+| Switch | ✅ |
+| Accordion | 🚫 |
+| AccordionContent | 🚫 |
+| AccordionSummary | 🚫 |
+| AvatarStack | 🚫 |
+| Banner | 🚫 |
+| Blockquote | 🚫 |
+| Breadcrumbs | 🚫 |
+| ButtonCell | 🚫 |
+| Card | 🚫 |
+| Cell | 🚫 |
+| Checkbox | 🚫 |
+| Chip | 🚫 |
+| ColorInput | 🚫 |
+| CompactPagination | 🚫 |
+| CompactPaginationItem | 🚫 |
+| Divider | 🚫 |
+| FileInput | 🚫 |
+| FixedLayout | 🚫 |
+| Info | 🚫 |
+| InlineButtons | 🚫 |
+| InlineButtonsItem | 🚫 |
+| Input | 🚫 |
+| List | 🚫 |
+| Modal | 🚫 |
+| ModalClose | 🚫 |
+| ModalHeader | 🚫 |
+| Multiselect | 🚫 |
+| Multiselectable | 🚫 |
+| Navigation | 🚫 |
+| Pagination | 🚫 |
+| PinInput | 🚫 |
+| Popper | 🚫 |
+| Progress | 🚫 |
+| Radio | 🚫 |
+| Rating | 🚫 |
+| Section | 🚫 |
+| SectionFooter | 🚫 |
+| SectionHeader | 🚫 |
+| SegmentedControl | 🚫 |
+| SegmentedControlItem | 🚫 |
+| Select | 🚫 |
+| Selectable | 🚫 |
+| Skeleton | 🚫 |
+| Slider | 🚫 |
+| Snackbar | 🚫 |
+| Spoiler | 🚫 |
+| Steps | 🚫 |
+| Tabbar | 🚫 |
+| TabbarItem | 🚫 |
+| TabsItem | 🚫 |
+| TabsList | 🚫 |
+| Text | 🚫 |
+| Textarea | 🚫 |
+| Timeline | 🚫 |
+| TimelineItem | 🚫 |
+| Title | 🚫 |
+| Tooltip | 🚫 |
 ## Installation
 
 ```sh
