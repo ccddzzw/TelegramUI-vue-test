@@ -15,23 +15,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.PAT_TOKEN }}
-
       - name: Checkout Repository A
         uses: actions/checkout@v2
         with:
           repository: Telegram-Mini-Apps/TelegramUI
           path: repoA
-          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Checkout Repository B
         uses: actions/checkout@v2
         with:
           repository: ${{ github.repository }}
           path: repoB
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ github.token }}
           fetch-depth: 0
 
       - name: Install GitHub
@@ -41,8 +36,6 @@ jobs:
 
       - name: Compare Directory Names
         id: compare
-        env:
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           # Find all stories files in repoA and repoB
           componentsA=$(find repoA/src/components -type f -name "*.stories.*" | sed 's|.*/\([^/]*\)/[^/]*\.stories\..*|\1|' | sort -u)
@@ -111,7 +104,7 @@ jobs:
             git push origin $branch_name
 
             # Create Pull Request using GitHub CLI
-            gh auth login --with-token <<< "${{ secrets.PAT_TOKEN }}"
+            gh auth login --with-token <<< "${{ github.token }}"
             gh pr create \
               --title "Update React vs Vue implementation progress" \
               --body "Automated update of the implementation progress table in README.md" \
