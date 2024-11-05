@@ -20,6 +20,7 @@ jobs:
         with:
           repository: Telegram-Mini-Apps/TelegramUI
           path: repoA
+          token: ${{ github.token }}
 
       - name: Checkout Repository B
         uses: actions/checkout@v2
@@ -36,6 +37,8 @@ jobs:
 
       - name: Compare Directory Names
         id: compare
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}  # Use PAT specifically for PR creation
         run: |
           # Find all stories files in repoA and repoB
           componentsA=$(find repoA/src/components -type f -name "*.stories.*" | sed 's|.*/\([^/]*\)/[^/]*\.stories\..*|\1|' | sort -u)
