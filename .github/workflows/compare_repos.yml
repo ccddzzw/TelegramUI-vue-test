@@ -20,7 +20,6 @@ jobs:
         with:
           repository: Telegram-Mini-Apps/TelegramUI
           path: repoA
-          token: ${{ github.token }}
 
       - name: Checkout Repository B
         uses: actions/checkout@v2
@@ -37,8 +36,6 @@ jobs:
 
       - name: Compare Directory Names
         id: compare
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           # Find all stories files in repoA and repoB
           componentsA=$(find repoA/src/components -type f -name "*.stories.*" | sed 's|.*/\([^/]*\)/[^/]*\.stories\..*|\1|' | sort -u)
@@ -106,14 +103,13 @@ jobs:
             git commit -m "Update README.md with differences between React and Vue implementations"
             git push origin $branch_name
 
-            # Create Pull Request using REST API
-            curl -L \
-              -X POST \
-              -H "Accept: application/vnd.github+json" \
-              -H "Authorization: Bearer ${{ secrets.PAT_TOKEN }}" \
-              -H "X-GitHub-Api-Version: 2022-11-28" \
-              https://api.github.com/repos/${{ github.repository }}/pulls \
-              -d "{\"title\":\"Update React vs Vue implementation progress\",\"body\":\"Automated update of the implementation progress table in README.md\",\"head\":\"$branch_name\",\"base\":\"main\"}"
+            # Create Pull Request using GitHub CLI
+            gh auth login --with-token <<< "${{ github.token }}"
+            gh pr create \
+              --title "Update React vs Vue implementation progress" \
+              --body "Automated update of the implementation progress table in README.md" \
+              --base main \
+              --head $branch_name
           else
             echo "No components have been added or removed since last update"
           fi
